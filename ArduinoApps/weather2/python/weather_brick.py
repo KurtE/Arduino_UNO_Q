@@ -29,6 +29,7 @@ class WeatherData:
     description: str
     category: str
     cur_temp: float
+    daily_precip: float
 
 
 # The weather codes have been taken from here: https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
@@ -82,8 +83,9 @@ class WeatherForecast:
             timezone (str): Timezone identifier. Defaults to "GMT".
             forecast_days (int): Number of days to forecast. Defaults to 1.
 
-        Returns:
-            WeatherData: Weather forecast with code, description, and category.
+            Returns:"current": ["precipitation", "temperature_2m", "wind_direction_10m", "wind_speed_10m"]
+
+      WeatherData: Weather forecast with code, description, and category.
 
         Raises:
             RuntimeError: If weather data retrieval fails.
@@ -93,7 +95,7 @@ class WeatherForecast:
             "latitude": latitude,
             "longitude": longitude,
             "timezone": timezone,
-            "daily": "weather_code",
+            "daily": ["weather_code","precipitation_sum"],
             "forecast_days": f"{forecast_days}",
 	        "timezone": "America/Los_Angeles",
             "current": "temperature_2m",
@@ -107,7 +109,9 @@ class WeatherForecast:
         except:
             raise RuntimeError("Failed to get weather data")
 
+      
         data = response.json()
+        #print(f"{data}")
         if response.status_code != 200:
             raise RuntimeError(f"Failed to get weather data: {data.get('reason', 'Unknown error')}")
 
@@ -115,32 +119,36 @@ class WeatherForecast:
             raise RuntimeError("Invalid response format")
 
         if "current" not in data or "temperature_2m" not in data["current"]:
-            raise RuntimeError("Invalid response format")
+            raise RuntimeError("Invalid response format temperature_2m")
+
+        if "daily" not in data or "precipitation_sum" not in data["daily"]:
+            raise RuntimeError("Invalid response format precipitation_sum")
+
 
         # This is the exact format of the response:
-        # {
-        #   "latitude":45.08,
-        #   "longitude":7.68,
-        #   "generationtime_ms":0.014185905456542969,
-        #   "utc_offset_seconds":0,
-        #   "timezone":"GMT",
-        #   "timezone_abbreviation":"GMT",
-        #   "elevation":239.0,
-        #   "daily_units":{
-        #       "time":"iso8601","weather_code":"wmo code"
-        #   },
-        #   "daily":{
-        #       "time":["2025-05-23"],"weather_code":[80]
-        #   }
-        # }
+         # {'latitude': 48.0, 
+         #  'longitude': -122.0, 
+         #  'generationtime_ms': 0.11718273162841797, 
+         #  'utc_offset_seconds': -28800, 
+         #  'timezone': 'America/Los_Angeles', 
+         #  'timezone_abbreviation': 'GMT-8', 
+         #  'elevation': 7.0, 
+         #  'current_units': {'time': 'iso8601', 'interval': 'seconds', 'temperature_2m': '°F'},
+         #  'current': {'time': '2025-11-17T10:30', 'interval': 900, 'temperature_2m': 48.5},
+         #  'daily_units': {'time': 'iso8601', 'weather_code': 'wmo code', 'precipitation_sum': 'inch'},
+         #  'daily': {'time': ['2025-11-17'], 'weather_code': [51], 'precipitation_sum': [0.035]}
+         # }
+
         weather_code = data["daily"]["weather_code"][forecast_days - 1]
         temp_2m = data["current"]["temperature_2m"]
-        
+        precip = data["daily"]["precipitation_sum"]
+      
         return WeatherData(
             code=weather_code,
             description=weather_data[weather_code]["description"],
             category=weather_data[weather_code]["category"],
             cur_temp=temp_2m,
+            daily_precip=precip[0],
         )
 
     def process(self, item):
