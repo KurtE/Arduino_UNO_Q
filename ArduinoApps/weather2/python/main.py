@@ -4,10 +4,24 @@
 
 from weather_brick import WeatherForecast
 from arduino.app_utils import *
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser  # ver. < 3.0
+
+config = ConfigParser()
 
 forecaster = WeatherForecast()
 
 last_data_list: list[float] = {}
+
+def get_weather_city() ->str:
+    try:
+        city_name = config.get('location', 'city')
+    except:
+        city_name = ""
+    return city_name
+    
 
 def get_weather_forecast(city: str) -> str:
     global last_data_list
@@ -22,8 +36,24 @@ def get_weather_data() -> list:
     global last_data_list
     return last_data_list
 
+try:
+    config.read('weather.ini')
+    city_name = config.get('location', 'city')
+except:
+    config.add_section('location')
+    config.set('location', 'city', 'Los Angeles')
+    # save to a file
+    with open('weather.ini', 'w') as configfile:
+        config.write(configfile)
+    city_name = config.get('location', 'city')
+print(city_name)
+
+
+
 Bridge.provide("get_weather_forecast", get_weather_forecast)
 
 Bridge.provide("get_weather_data", get_weather_data)
+
+Bridge.provide("get_weather_city", get_weather_city)
 
 App.run()

@@ -11,11 +11,12 @@
 #include <Arduino_Modulino.h>
 #include "weather_frames.h"
 
+String city;
 #if defined __has_include
 #if __has_include ("location.h")
 #include "location.h"
 #else
-String city = "Los Angeles";
+#define DEFAULT_CITY "Los Angeles"
 #endif
 #else
 #warning "__has_include not defined"
@@ -96,6 +97,10 @@ void setup() {
   delay(2000);
   Bridge.begin();
   Monitor.begin();
+
+  bool ok = Bridge.call("get_weather_city", city).result(city);
+  if (!ok || (city == "")) city = DEFAULT_CITY;
+  
   digitalWrite(LED_BUILTIN, LOW);
 }
 
@@ -153,7 +158,7 @@ void loop() {
       printk("Failed to get weather data\n");
       return;
     }
-    sprintf(buffer, "%f.1 %f.1 %f.1 %f,1 ", cur_weather_data[TEMP], cur_weather_data[PRECIP], cur_weather_data[SPEED], cur_weather_data[DIR]);
+    sprintf(buffer, "%.1f %.1f %.1f %f,1 ", cur_weather_data[TEMP], cur_weather_data[PRECIP], cur_weather_data[SPEED], cur_weather_data[DIR]);
     Monitor.print(buffer);
     last_forcast_time = millis();
   }
@@ -187,7 +192,7 @@ void loop() {
       if (cur_weather_data[PRECIP] >= 1.0) {
         sprintf(buffer, "%d", (int)cur_weather_data[PRECIP]);
       } else if (cur_weather_data[PRECIP] >= 0.10) {
-        sprintf(buffer, "%f.1", cur_weather_data[PRECIP]);
+        sprintf(buffer, "%.1f", cur_weather_data[PRECIP]);
       } else {
         sprintf(buffer, "%f.2", cur_weather_data[PRECIP]);
       }
@@ -211,10 +216,14 @@ void loop() {
     matrix.textScrollSpeed(100);
     matrix.clear();
     matrix.beginText(0, 0, 127, 0, 0);  // X, Y, then R, G, B
-    sprintf(buffer, "  T %d", (int)(cur_weather_data[TEMP] + 0.5));
+    matrix.print(" ");
+    if (button_b) {
+      matrix.print(city);
+    }
+    sprintf(buffer, " T %d", (int)(cur_weather_data[TEMP] + 0.5));
     matrix.print(buffer);
     if (cur_weather_data[PRECIP] > 0) {
-      sprintf(buffer, " R %f.1");
+      sprintf(buffer, " R %.1f");
       matrix.print(buffer);
     }
     if (cur_weather_data[SPEED] >= MIN_SPEED_TO_DISPLAY) {
