@@ -57,7 +57,18 @@ void print_gpio_regs(const char *name, GPIO_TypeDef *port) {
   Serial.print("GPIO");
   Serial.print(name);
   Serial.print(" ");
-  Serial.print(port->MODER, HEX);
+  uint32_t moder = port->MODER;
+  Serial.print(moder, HEX);
+  Serial.print(" : "); 
+  for (uint8_t i = 0; i < 16; i++) {
+    switch (moder & 0xC0000000) {
+      case 0x00000000ul: Serial.print("I"); break;
+      case 0x40000000ul: Serial.print("O"); break;
+      case 0x80000000ul: Serial.print("F"); break;
+      default: Serial.print("A"); break;
+    }
+    moder <<= 2;
+  }
   Serial.print(" ");
   Serial.print(port->AFR[0], HEX);
   Serial.print(" ");
