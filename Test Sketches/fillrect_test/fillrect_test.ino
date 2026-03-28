@@ -37,6 +37,14 @@ ST7796_zephyr tft = ST7796_zephyr(&SPI, TFT_CS, TFT_DC, TFT_RST);
 
 uint8_t test_screen_rotation = 0;
 
+void set_pin_moder(GPIO_TypeDef *port, uint8_t pin, uint8_t pin_mode) {
+  // Set the MODER = could be done in fewer steps
+  uint32_t moder = port->MODER;
+  uint32_t mask = ~(0x3 << (pin * 2));
+  moder = (moder & mask) | (pin_mode << (pin * 2));
+  port->MODER = moder;
+}
+
 void set_gpio_pin_mode(GPIO_TypeDef *port, uint8_t pin, uint8_t af) {
   // Set the MODER = could be done in fewer steps
   uint32_t moder = port->MODER;
