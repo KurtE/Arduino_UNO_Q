@@ -1,0 +1,2 @@
+Python: uv run python/main.py
+Arduino: arduino-cli compile --fqbn arduino:zephyr:unoq --upload sketch/
