@@ -1,2 +1,19 @@
-Python: uv run python/main.py
-Arduino: arduino-cli compile --fqbn arduino:zephyr:unoq --upload sketch/
+This is a simple test to see if I can setup and use an XBox One controller with the Q:
+More about this on the Arduino forum thread: 
+https://forum.arduino.cc/t/anyone-had-luck-reading-from-a-gamepad/1436918
+
+
+I started up the Q as stand alone and went to the bluetooth app, where I did a scan and then a did a bind
+to my Joystick... Took a few attempts.
+
+I then used the instuctions that the @ptillish (Arduino Forum) on being able to setup the python on the Q
+to include other packages like pygame.
+
+https://forum.arduino.cc/t/uno-q-possible-to-connect-python-not-containerized-with-arduino/1436102/8
+
+
+Instructions on how once I have things setup how I program the Arduino side, if needed:
+    arduino-cli compile --fqbn arduino:zephyr:unoq --upload sketch/
+
+And how to start up the python within uv framework:
+    Python: uv run python/main.py
