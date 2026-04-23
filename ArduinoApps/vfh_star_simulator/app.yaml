@@ -1,0 +1,6 @@
+name: vfh_star_simulator
+description: ""
+ports: []
+bricks:
+- arduino:streamlit_ui: {}
+icon: 😀

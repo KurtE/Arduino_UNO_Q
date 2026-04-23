@@ -16,4 +16,4 @@ Instructions on how once I have things setup how I program the Arduino side, if 
     arduino-cli compile --fqbn arduino:zephyr:unoq --upload sketch/
 
 And how to start up the python within uv framework:
-    Python: uv run python/main.py
+    uv run python/main.py
