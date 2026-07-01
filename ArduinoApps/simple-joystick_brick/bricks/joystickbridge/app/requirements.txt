@@ -1,0 +1,4 @@
+flask
+spidev
+numpy
+evdev

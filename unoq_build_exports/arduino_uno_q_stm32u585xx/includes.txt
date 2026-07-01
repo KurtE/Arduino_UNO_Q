@@ -1,0 +1,15 @@
+-iwithprefixbefore/llext-edk/include/zephyr/include/generated/zephyr
+-iwithprefixbefore/llext-edk/include/zephyr/include
+-iwithprefixbefore/llext-edk/include/zephyr/include/generated
+-iwithprefixbefore/llext-edk/include/zephyr/soc/st/stm32
+-iwithprefixbefore/llext-edk/include/zephyr/soc/st/stm32/common/.
+-iwithprefixbefore/llext-edk/include/zephyr/drivers
+-iwithprefixbefore/llext-edk/include/zephyr/soc/st/stm32/stm32u5x/.
+-iwithprefixbefore/llext-edk/include/modules/hal/cmsis/CMSIS/Core/Include
+-iwithprefixbefore/llext-edk/include/modules/hal/cmsis_6/CMSIS/Core/Include
+-iwithprefixbefore/llext-edk/include/zephyr/modules/cmsis_6/.
+-iwithprefixbefore/llext-edk/include/modules/hal/stm32/stm32cube/stm32u5xx/soc
+-iwithprefixbefore/llext-edk/include/modules/hal/stm32/stm32cube/stm32u5xx/drivers/include
+-iwithprefixbefore/llext-edk/include/modules/hal/stm32/stm32cube/common_ll/include
+-iwithprefixbefore/llext-edk/include/zephyr/lib/libc/common/include
+-iwithprefixbefore/llext-edk/include/zephyr/lib/cpp/minimal/include

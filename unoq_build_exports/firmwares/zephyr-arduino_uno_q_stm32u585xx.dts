@@ -1,0 +1,2118 @@
+/dts-v1/;
+
+/* node '/' defined in zephyr/dts/common/skeleton.dtsi:9 */
+/ {
+	#address-cells = < 0x1 >;     /* in zephyr/dts/common/skeleton.dtsi:10 */
+	#size-cells = < 0x1 >;        /* in zephyr/dts/common/skeleton.dtsi:11 */
+	model = "Arduino UNO Q";      /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:13 */
+	compatible = "arduino,uno_q"; /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:14 */
+
+	/* node '/chosen' defined in zephyr/dts/common/skeleton.dtsi:12 */
+	chosen {
+		zephyr,entropy = &rng;                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:27 */
+		zephyr,flash-controller = &flash;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:28 */
+		zephyr,console = &usart1;                 /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:17 */
+		zephyr,shell-uart = &usart1;              /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:18 */
+		zephyr,sram = &sram0;                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:19 */
+		zephyr,flash = &flash0;                   /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:20 */
+		zephyr,code-partition = &slot0_partition; /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:21 */
+		zephyr,canbus = &fdcan1;                  /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:22 */
+	};
+
+	/* node '/aliases' defined in zephyr/dts/common/skeleton.dtsi:13 */
+	aliases {
+		watchdog0 = &iwdg;     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:50 */
+		volt-sensor0 = &vref1; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:52 */
+		volt-sensor1 = &vbat4; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:53 */
+		led0 = &led3_green;    /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:26 */
+		led1 = &led3_red;      /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:27 */
+		die-temp0 = &die_temp; /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:28 */
+	};
+
+	/* node '/soc' defined in zephyr/dts/arm/armv8-m.dtsi:6 */
+	soc {
+		#address-cells = < 0x1 >;     /* in zephyr/dts/arm/armv8-m.dtsi:7 */
+		#size-cells = < 0x1 >;        /* in zephyr/dts/arm/armv8-m.dtsi:8 */
+		interrupt-parent = < &nvic >; /* in zephyr/dts/arm/armv8-m.dtsi:10 */
+		ranges;                       /* in zephyr/dts/arm/armv8-m.dtsi:11 */
+		compatible = "st,stm32u585",
+		             "st,stm32u5",
+		             "simple-bus";    /* in zephyr/dts/arm/st/u5/stm32u585.dtsi:13 */
+
+		/* node '/soc/interrupt-controller@e000e100' defined in zephyr/dts/arm/armv8-m.dtsi:13 */
+		nvic: interrupt-controller@e000e100 {
+			#address-cells = < 0x1 >;            /* in zephyr/dts/arm/armv8-m.dtsi:14 */
+			compatible = "arm,v8m-nvic";         /* in zephyr/dts/arm/armv8-m.dtsi:15 */
+			reg = < 0xe000e100 0xc00 >;          /* in zephyr/dts/arm/armv8-m.dtsi:16 */
+			interrupt-controller;                /* in zephyr/dts/arm/armv8-m.dtsi:17 */
+			#interrupt-cells = < 0x2 >;          /* in zephyr/dts/arm/armv8-m.dtsi:18 */
+			arm,num-irq-priority-bits = < 0x4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:989 */
+			phandle = < 0x1 >;                   /* in zephyr/dts/arm/armv8-m.dtsi:10 */
+		};
+
+		/* node '/soc/timer@e000e010' defined in zephyr/dts/arm/armv8-m.dtsi:21 */
+		systick: timer@e000e010 {
+			compatible = "arm,armv8m-systick"; /* in zephyr/dts/arm/armv8-m.dtsi:22 */
+			reg = < 0xe000e010 0x10 >;         /* in zephyr/dts/arm/armv8-m.dtsi:23 */
+		};
+
+		/* node '/soc/flash-controller@40022000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:159 */
+		flash: flash-controller@40022000 {
+			compatible = "st,stm32-flash-controller",
+			             "st,stm32l5-flash-controller"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:160 */
+			reg = < 0x40022000 0x400 >;                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:161 */
+			interrupts = < 0x6 0x0 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:162 */
+			#address-cells = < 0x1 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:164 */
+			#size-cells = < 0x1 >;                      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:165 */
+
+			/* node '/soc/flash-controller@40022000/flash@8000000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:167 */
+			flash0: flash@8000000 {
+				compatible = "st,stm32-nv-flash",
+				             "soc-nv-flash";      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:168 */
+				write-block-size = < 0x10 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:170 */
+				erase-block-size = < 0x2000 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:171 */
+				max-erase-time = < 0x5 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:173 */
+				reg = < 0x8000000 0x200000 >;     /* in zephyr/dts/arm/st/u5/stm32u585Xi.dtsi:14 */
+
+				/* node '/soc/flash-controller@40022000/flash@8000000/partitions' defined in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:33 */
+				partitions {
+					compatible = "fixed-partitions"; /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:34 */
+					#address-cells = < 0x1 >;        /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:35 */
+					#size-cells = < 0x1 >;           /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:36 */
+
+					/* node '/soc/flash-controller@40022000/flash@8000000/partitions/partition@0' defined in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:43 */
+					boot_partition: partition@0 {
+						label = "mcuboot";     /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:44 */
+						reg = < 0x0 0x10000 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:45 */
+					};
+
+					/* node '/soc/flash-controller@40022000/flash@8000000/partitions/partition@10000' defined in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:81 */
+					slot0_partition: partition@10000 {
+						label = "image-0";         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:82 */
+						reg = < 0x10000 0xc0000 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:83 */
+					};
+
+					/* node '/soc/flash-controller@40022000/flash@8000000/partitions/partition@d0000' defined in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:86 */
+					bootanimation: partition@d0000 {
+						reg = < 0xd0000 0x30000 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:87 */
+					};
+
+					/* node '/soc/flash-controller@40022000/flash@8000000/partitions/partition@100000' defined in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:90 */
+					user_sketch: partition@100000 {
+						reg = < 0x100000 0xc0000 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:91 */
+					};
+
+					/* node '/soc/flash-controller@40022000/flash@8000000/partitions/partition@1c0000' defined in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:94 */
+					storage_partition: partition@1c0000 {
+						reg = < 0x1c0000 0x40000 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:95 */
+					};
+				};
+			};
+		};
+
+		/* node '/soc/rcc@46020c00' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:177 */
+		rcc: rcc@46020c00 {
+			compatible = "st,stm32u5-rcc";   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:178 */
+			clocks-controller;               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:179 */
+			#clock-cells = < 0x2 >;          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:180 */
+			reg = < 0x46020c00 0x400 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:181 */
+			clocks = < &pll1 >;              /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:87 */
+			clock-frequency = < 0x9896800 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:88 */
+			ahb-prescaler = < 0x1 >;         /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:89 */
+			apb1-prescaler = < 0x1 >;        /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:90 */
+			apb2-prescaler = < 0x1 >;        /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:91 */
+			apb3-prescaler = < 0x1 >;        /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:92 */
+			phandle = < 0x3 >;               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:221 */
+
+			/* node '/soc/rcc@46020c00/reset-controller' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:183 */
+			rctl: reset-controller {
+				compatible = "st,stm32-rcc-rctl"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:184 */
+				#reset-cells = < 0x1 >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:185 */
+				phandle = < 0x4 >;                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:300 */
+			};
+		};
+
+		/* node '/soc/interrupt-controller@46022000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:189 */
+		exti: interrupt-controller@46022000 {
+			compatible = "st,stm32g0-exti",
+			             "st,stm32-exti";   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:190 */
+			interrupt-controller;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:191 */
+			#interrupt-cells = < 0x1 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:192 */
+			#address-cells = < 0x1 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:193 */
+			reg = < 0x46022000 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:194 */
+			num-lines = < 0x10 >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:195 */
+			interrupts = < 0xb 0x0 >,
+			             < 0xc 0x0 >,
+			             < 0xd 0x0 >,
+			             < 0xe 0x0 >,
+			             < 0xf 0x0 >,
+			             < 0x10 0x0 >,
+			             < 0x11 0x0 >,
+			             < 0x12 0x0 >,
+			             < 0x13 0x0 >,
+			             < 0x14 0x0 >,
+			             < 0x15 0x0 >,
+			             < 0x16 0x0 >,
+			             < 0x17 0x0 >,
+			             < 0x18 0x0 >,
+			             < 0x19 0x0 >,
+			             < 0x1a 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:196 */
+			interrupt-names = "line0",
+			                  "line1",
+			                  "line2",
+			                  "line3",
+			                  "line4",
+			                  "line5",
+			                  "line6",
+			                  "line7",
+			                  "line8",
+			                  "line9",
+			                  "line10",
+			                  "line11",
+			                  "line12",
+			                  "line13",
+			                  "line14",
+			                  "line15";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:200 */
+			line-ranges = < 0x0 0x1 >,
+			              < 0x1 0x1 >,
+			              < 0x2 0x1 >,
+			              < 0x3 0x1 >,
+			              < 0x4 0x1 >,
+			              < 0x5 0x1 >,
+			              < 0x6 0x1 >,
+			              < 0x7 0x1 >,
+			              < 0x8 0x1 >,
+			              < 0x9 0x1 >,
+			              < 0xa 0x1 >,
+			              < 0xb 0x1 >,
+			              < 0xc 0x1 >,
+			              < 0xd 0x1 >,
+			              < 0xe 0x1 >,
+			              < 0xf 0x1 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:204 */
+		};
+
+		/* node '/soc/pin-controller@42020000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:210 */
+		pinctrl: pin-controller@42020000 {
+			compatible = "st,stm32-pinctrl"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:211 */
+			#address-cells = < 0x1 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:212 */
+			#size-cells = < 0x1 >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:213 */
+			reg = < 0x42020000 0x2000 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:214 */
+
+			/* node '/soc/pin-controller@42020000/gpio@42020000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:216 */
+			gpioa: gpio@42020000 {
+				compatible = "st,stm32-gpio"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:217 */
+				gpio-controller;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:218 */
+				#gpio-cells = < 0x2 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:219 */
+				reg = < 0x42020000 0x400 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:220 */
+				clocks = < &rcc 0x8c 0x1 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:221 */
+				phandle = < 0x39 >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:844 */
+			};
+
+			/* node '/soc/pin-controller@42020000/gpio@42020400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:224 */
+			gpiob: gpio@42020400 {
+				compatible = "st,stm32-gpio"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:225 */
+				gpio-controller;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:226 */
+				#gpio-cells = < 0x2 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:227 */
+				reg = < 0x42020400 0x400 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:228 */
+				clocks = < &rcc 0x8c 0x2 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:229 */
+				phandle = < 0x3a >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:844 */
+			};
+
+			/* node '/soc/pin-controller@42020000/gpio@42020800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:232 */
+			gpioc: gpio@42020800 {
+				compatible = "st,stm32-gpio"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:233 */
+				gpio-controller;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:234 */
+				#gpio-cells = < 0x2 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:235 */
+				reg = < 0x42020800 0x400 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:236 */
+				clocks = < &rcc 0x8c 0x4 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:237 */
+				phandle = < 0x3c >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:851 */
+			};
+
+			/* node '/soc/pin-controller@42020000/gpio@42020c00' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:240 */
+			gpiod: gpio@42020c00 {
+				compatible = "st,stm32-gpio"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:241 */
+				gpio-controller;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:242 */
+				#gpio-cells = < 0x2 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:243 */
+				reg = < 0x42020c00 0x400 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:244 */
+				clocks = < &rcc 0x8c 0x8 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:245 */
+				phandle = < 0x57 >;           /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:221 */
+			};
+
+			/* node '/soc/pin-controller@42020000/gpio@42021000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:248 */
+			gpioe: gpio@42021000 {
+				compatible = "st,stm32-gpio"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:249 */
+				gpio-controller;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:250 */
+				#gpio-cells = < 0x2 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:251 */
+				reg = < 0x42021000 0x400 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:252 */
+				clocks = < &rcc 0x8c 0x10 >;  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:253 */
+				phandle = < 0x3b >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:844 */
+			};
+
+			/* node '/soc/pin-controller@42020000/gpio@42021800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:256 */
+			gpiog: gpio@42021800 {
+				compatible = "st,stm32-gpio"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:257 */
+				gpio-controller;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:258 */
+				#gpio-cells = < 0x2 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:259 */
+				reg = < 0x42021800 0x400 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:260 */
+				clocks = < &rcc 0x8c 0x40 >;  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:261 */
+				status = "okay";              /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:255 */
+				phandle = < 0x59 >;           /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:221 */
+			};
+
+			/* node '/soc/pin-controller@42020000/gpio@42021c00' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:264 */
+			gpioh: gpio@42021c00 {
+				compatible = "st,stm32-gpio"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:265 */
+				gpio-controller;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:266 */
+				#gpio-cells = < 0x2 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:267 */
+				reg = < 0x42021c00 0x400 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:268 */
+				clocks = < &rcc 0x8c 0x80 >;  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:269 */
+				phandle = < 0x56 >;           /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:19 */
+			};
+
+			/* node '/soc/pin-controller@42020000/adc1_in9_pa4' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:31 */
+			adc1_in9_pa4: adc1_in9_pa4 {
+				pinmux = < 0x90 >;  /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:32 */
+				phandle = < 0x31 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:170 */
+			};
+
+			/* node '/soc/pin-controller@42020000/adc1_in10_pa5' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:35 */
+			adc1_in10_pa5: adc1_in10_pa5 {
+				pinmux = < 0xb0 >;  /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:36 */
+				phandle = < 0x32 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:170 */
+			};
+
+			/* node '/soc/pin-controller@42020000/adc1_in11_pa6' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:39 */
+			adc1_in11_pa6: adc1_in11_pa6 {
+				pinmux = < 0xd0 >;  /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:40 */
+				phandle = < 0x33 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:170 */
+			};
+
+			/* node '/soc/pin-controller@42020000/adc1_in12_pa7' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:43 */
+			adc1_in12_pa7: adc1_in12_pa7 {
+				pinmux = < 0xf0 >;  /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:44 */
+				phandle = < 0x34 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:170 */
+			};
+
+			/* node '/soc/pin-controller@42020000/adc1_in1_pc0' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:59 */
+			adc1_in1_pc0: adc1_in1_pc0 {
+				pinmux = < 0x410 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:60 */
+				phandle = < 0x36 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:170 */
+			};
+
+			/* node '/soc/pin-controller@42020000/adc1_in2_pc1' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:63 */
+			adc1_in2_pc1: adc1_in2_pc1 {
+				pinmux = < 0x430 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:64 */
+				phandle = < 0x35 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:170 */
+			};
+
+			/* node '/soc/pin-controller@42020000/analog_pa13' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:213 */
+			analog_pa13: analog_pa13 {
+				pinmux = < 0x1b0 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:214 */
+				phandle = < 0x4b >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:906 */
+			};
+
+			/* node '/soc/pin-controller@42020000/analog_pa14' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:217 */
+			analog_pa14: analog_pa14 {
+				pinmux = < 0x1d0 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:218 */
+				phandle = < 0x4c >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:906 */
+			};
+
+			/* node '/soc/pin-controller@42020000/analog_pa15' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:221 */
+			analog_pa15: analog_pa15 {
+				pinmux = < 0x1f0 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:222 */
+				phandle = < 0x4d >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:906 */
+			};
+
+			/* node '/soc/pin-controller@42020000/analog_pb3' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:237 */
+			analog_pb3: analog_pb3 {
+				pinmux = < 0x270 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:238 */
+				phandle = < 0x4e >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:906 */
+			};
+
+			/* node '/soc/pin-controller@42020000/analog_pb4' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:241 */
+			analog_pb4: analog_pb4 {
+				pinmux = < 0x290 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:242 */
+				phandle = < 0x4f >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:906 */
+			};
+
+			/* node '/soc/pin-controller@42020000/dac1_out1_pa4' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:695 */
+			dac1_out1_pa4: dac1_out1_pa4 {
+				pinmux = < 0x90 >;  /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:696 */
+				phandle = < 0x2f >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:231 */
+			};
+
+			/* node '/soc/pin-controller@42020000/dac1_out2_pa5' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:699 */
+			dac1_out2_pa5: dac1_out2_pa5 {
+				pinmux = < 0xb0 >;  /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:700 */
+				phandle = < 0x30 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:231 */
+			};
+
+			/* node '/soc/pin-controller@42020000/fdcan1_rx_pa11' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:957 */
+			fdcan1_rx_pa11: fdcan1_rx_pa11 {
+				pinmux = < 0x169 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:958 */
+				phandle = < 0x37 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:213 */
+			};
+
+			/* node '/soc/pin-controller@42020000/fdcan1_tx_pa12' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:979 */
+			fdcan1_tx_pa12: fdcan1_tx_pa12 {
+				pinmux = < 0x189 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:980 */
+				phandle = < 0x38 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:213 */
+			};
+
+			/* node '/soc/pin-controller@42020000/i2c2_scl_pb10' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1345 */
+			i2c2_scl_pb10: i2c2_scl_pb10 {
+				pinmux = < 0x344 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1346 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1347 */
+				drive-open-drain;   /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1348 */
+				phandle = < 0x16 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:126 */
+			};
+
+			/* node '/soc/pin-controller@42020000/i2c3_scl_pc0' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1375 */
+			i2c3_scl_pc0: i2c3_scl_pc0 {
+				pinmux = < 0x404 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1376 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1377 */
+				drive-open-drain;   /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1378 */
+				phandle = < 0x18 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:33 */
+			};
+
+			/* node '/soc/pin-controller@42020000/i2c4_scl_pd12' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1405 */
+			i2c4_scl_pd12: i2c4_scl_pd12 {
+				pinmux = < 0x784 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1406 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1407 */
+				drive-open-drain;   /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1408 */
+				phandle = < 0x1a >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:9 */
+			};
+
+			/* node '/soc/pin-controller@42020000/i2c4_scl_pf14' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1411 */
+			i2c4_scl_pf14: i2c4_scl_pf14 {
+				pinmux = < 0xbc4 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1412 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1413 */
+				drive-open-drain;   /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1414 */
+				phandle = < 0x1c >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:10 */
+			};
+
+			/* node '/soc/pin-controller@42020000/i2c2_sda_pb11' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1437 */
+			i2c2_sda_pb11: i2c2_sda_pb11 {
+				pinmux = < 0x364 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1438 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1439 */
+				drive-open-drain;   /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1440 */
+				phandle = < 0x17 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:126 */
+			};
+
+			/* node '/soc/pin-controller@42020000/i2c3_sda_pc1' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1467 */
+			i2c3_sda_pc1: i2c3_sda_pc1 {
+				pinmux = < 0x424 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1468 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1469 */
+				drive-open-drain;   /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1470 */
+				phandle = < 0x19 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:33 */
+			};
+
+			/* node '/soc/pin-controller@42020000/i2c4_sda_pd13' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1497 */
+			i2c4_sda_pd13: i2c4_sda_pd13 {
+				pinmux = < 0x7a4 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1498 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1499 */
+				drive-open-drain;   /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1500 */
+				phandle = < 0x1b >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:9 */
+			};
+
+			/* node '/soc/pin-controller@42020000/i2c4_sda_pf15' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1503 */
+			i2c4_sda_pf15: i2c4_sda_pf15 {
+				pinmux = < 0xbe4 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1504 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1505 */
+				drive-open-drain;   /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1506 */
+				phandle = < 0x1d >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:10 */
+			};
+
+			/* node '/soc/pin-controller@42020000/debug_jtms_swdio_pa13' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1578 */
+			debug_jtms_swdio_pa13: debug_jtms_swdio_pa13 {
+				pinmux = < 0x1a0 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1579 */
+				phandle = < 0x46 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:903 */
+			};
+
+			/* node '/soc/pin-controller@42020000/debug_jtck_swclk_pa14' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1582 */
+			debug_jtck_swclk_pa14: debug_jtck_swclk_pa14 {
+				pinmux = < 0x1c0 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1583 */
+				phandle = < 0x47 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:903 */
+			};
+
+			/* node '/soc/pin-controller@42020000/debug_jtdi_pa15' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1586 */
+			debug_jtdi_pa15: debug_jtdi_pa15 {
+				pinmux = < 0x1e0 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1587 */
+				phandle = < 0x48 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:903 */
+			};
+
+			/* node '/soc/pin-controller@42020000/debug_jtdo_swo_pb3' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1590 */
+			debug_jtdo_swo_pb3: debug_jtdo_swo_pb3 {
+				pinmux = < 0x260 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1591 */
+				phandle = < 0x49 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:903 */
+			};
+
+			/* node '/soc/pin-controller@42020000/debug_jtrst_pb4' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1594 */
+			debug_jtrst_pb4: debug_jtrst_pb4 {
+				pinmux = < 0x280 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1595 */
+				phandle = < 0x4a >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:903 */
+			};
+
+			/* node '/soc/pin-controller@42020000/rcc_mco_pa8' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1967 */
+			rcc_mco_pa8: rcc_mco_pa8 {
+				pinmux = < 0x100 >;            /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1968 */
+				slew-rate = "very-high-speed"; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:1969 */
+				phandle = < 0x45 >;            /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:43 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi2_miso_pb14' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2433 */
+			spi2_miso_pb14: spi2_miso_pb14 {
+				pinmux = < 0x3c5 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2434 */
+				bias-pull-down;     /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2435 */
+				phandle = < 0xc >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:141 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi2_miso_pc2' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2438 */
+			spi2_miso_pc2: spi2_miso_pc2 {
+				pinmux = < 0x445 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2439 */
+				bias-pull-down;     /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2440 */
+				phandle = < 0x10 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:143 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi3_miso_pg10' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2463 */
+			spi3_miso_pg10: spi3_miso_pg10 {
+				pinmux = < 0xd46 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2464 */
+				bias-pull-down;     /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2465 */
+				phandle = < 0x13 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:150 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi2_mosi_pb15' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2495 */
+			spi2_mosi_pb15: spi2_mosi_pb15 {
+				pinmux = < 0x3e5 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2496 */
+				bias-pull-down;     /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2497 */
+				phandle = < 0xd >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:141 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi2_mosi_pc3' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2505 */
+			spi2_mosi_pc3: spi2_mosi_pc3 {
+				pinmux = < 0x465 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2506 */
+				bias-pull-down;     /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2507 */
+				phandle = < 0x11 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:143 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi3_mosi_pb5' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2520 */
+			spi3_mosi_pb5: spi3_mosi_pb5 {
+				pinmux = < 0x2a6 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2521 */
+				bias-pull-down;     /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2522 */
+				phandle = < 0x14 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:150 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi2_nss_pb9' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2562 */
+			spi2_nss_pb9: spi2_nss_pb9 {
+				pinmux = < 0x325 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2563 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2564 */
+				phandle = < 0xe >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:141 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi3_nss_pg12' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2592 */
+			spi3_nss_pg12: spi3_nss_pg12 {
+				pinmux = < 0xd86 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2593 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2594 */
+				phandle = < 0x15 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:150 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi2_sck_pb13' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2641 */
+			spi2_sck_pb13: spi2_sck_pb13 {
+				pinmux = < 0x3a5 >;            /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2642 */
+				bias-pull-down;                /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2643 */
+				slew-rate = "very-high-speed"; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2644 */
+				phandle = < 0xb >;             /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:141 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi2_sck_pd1' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2647 */
+			spi2_sck_pd1: spi2_sck_pd1 {
+				pinmux = < 0x625 >;            /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2648 */
+				bias-pull-down;                /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2649 */
+				slew-rate = "very-high-speed"; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2650 */
+				phandle = < 0xf >;             /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:143 */
+			};
+
+			/* node '/soc/pin-controller@42020000/spi3_sck_pg9' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2677 */
+			spi3_sck_pg9: spi3_sck_pg9 {
+				pinmux = < 0xd26 >;            /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2678 */
+				bias-pull-down;                /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2679 */
+				slew-rate = "very-high-speed"; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2680 */
+				phandle = < 0x12 >;            /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:150 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim1_ch4_pa11' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2763 */
+			tim1_ch4_pa11: tim1_ch4_pa11 {
+				pinmux = < 0x161 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2764 */
+				phandle = < 0x1f >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:110 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim1_ch1n_pb13' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2775 */
+			tim1_ch1n_pb13: tim1_ch1n_pb13 {
+				pinmux = < 0x3a1 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2776 */
+				phandle = < 0x22 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:110 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim1_ch2n_pb14' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2779 */
+			tim1_ch2n_pb14: tim1_ch2n_pb14 {
+				pinmux = < 0x3c1 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2780 */
+				phandle = < 0x21 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:110 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim1_ch3n_pb15' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2783 */
+			tim1_ch3n_pb15: tim1_ch3n_pb15 {
+				pinmux = < 0x3e1 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2784 */
+				phandle = < 0x20 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:110 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim2_ch2_pb3' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2847 */
+			tim2_ch2_pb3: tim2_ch2_pb3 {
+				pinmux = < 0x261 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2848 */
+				phandle = < 0x23 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:123 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim2_ch3_pb10' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2851 */
+			tim2_ch3_pb10: tim2_ch3_pb10 {
+				pinmux = < 0x341 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2852 */
+				phandle = < 0x24 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:123 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim2_ch4_pb11' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2855 */
+			tim2_ch4_pb11: tim2_ch4_pb11 {
+				pinmux = < 0x361 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2856 */
+				phandle = < 0x25 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:123 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim3_ch3_pb0' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2867 */
+			tim3_ch3_pb0: tim3_ch3_pb0 {
+				pinmux = < 0x202 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2868 */
+				phandle = < 0x26 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:135 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim3_ch4_pb1' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2871 */
+			tim3_ch4_pb1: tim3_ch4_pb1 {
+				pinmux = < 0x222 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2872 */
+				phandle = < 0x27 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:135 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim3_ch1_pb4' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2875 */
+			tim3_ch1_pb4: tim3_ch1_pb4 {
+				pinmux = < 0x282 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2876 */
+				phandle = < 0x28 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:135 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim4_ch3_pb8' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2923 */
+			tim4_ch3_pb8: tim4_ch3_pb8 {
+				pinmux = < 0x302 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2924 */
+				phandle = < 0x29 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:148 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim4_ch4_pb9' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2927 */
+			tim4_ch4_pb9: tim4_ch4_pb9 {
+				pinmux = < 0x322 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:2928 */
+				phandle = < 0x2a >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:148 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim5_ch1_ph10' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3019 */
+			tim5_ch1_ph10: tim5_ch1_ph10 {
+				pinmux = < 0xf42 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3020 */
+				phandle = < 0x2b >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:159 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim5_ch2_ph11' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3023 */
+			tim5_ch2_ph11: tim5_ch2_ph11 {
+				pinmux = < 0xf62 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3024 */
+				phandle = < 0x2c >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:159 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim5_ch3_ph12' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3027 */
+			tim5_ch3_ph12: tim5_ch3_ph12 {
+				pinmux = < 0xf82 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3028 */
+				phandle = < 0x2d >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:159 */
+			};
+
+			/* node '/soc/pin-controller@42020000/tim8_ch4n_pb2' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3083 */
+			tim8_ch4n_pb2: tim8_ch4n_pb2 {
+				pinmux = < 0x243 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3084 */
+				phandle = < 0x2e >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:171 */
+			};
+
+			/* node '/soc/pin-controller@42020000/lpuart1_cts_pg5' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3299 */
+			lpuart1_cts_pg5: lpuart1_cts_pg5 {
+				pinmux = < 0xca8 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3300 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3301 */
+				phandle = < 0xa >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:106 */
+			};
+
+			/* node '/soc/pin-controller@42020000/lpuart1_rts_pg6' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3438 */
+			lpuart1_rts_pg6: lpuart1_rts_pg6 {
+				pinmux = < 0xcc8 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3439 */
+				drive-push-pull;    /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3440 */
+				phandle = < 0x9 >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:106 */
+			};
+
+			/* node '/soc/pin-controller@42020000/usart1_rx_pb7' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3503 */
+			usart1_rx_pb7: usart1_rx_pb7 {
+				pinmux = < 0x2e7 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3504 */
+				bias-pull-up;       /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:114 */
+				phandle = < 0x6 >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:119 */
+			};
+
+			/* node '/soc/pin-controller@42020000/lpuart1_rx_pg8' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3515 */
+			lpuart1_rx_pg8: lpuart1_rx_pg8 {
+				pinmux = < 0xd08 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3516 */
+				bias-pull-up;       /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:102 */
+				phandle = < 0x8 >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:106 */
+			};
+
+			/* node '/soc/pin-controller@42020000/usart1_tx_pb6' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3579 */
+			usart1_tx_pb6: usart1_tx_pb6 {
+				pinmux = < 0x2c7 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3580 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3581 */
+				phandle = < 0x5 >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:119 */
+			};
+
+			/* node '/soc/pin-controller@42020000/lpuart1_tx_pg7' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3594 */
+			lpuart1_tx_pg7: lpuart1_tx_pg7 {
+				pinmux = < 0xce8 >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3595 */
+				bias-pull-up;       /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3596 */
+				phandle = < 0x7 >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:106 */
+			};
+
+			/* node '/soc/pin-controller@42020000/usb_otg_fs_dm_pa11' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3678 */
+			usb_otg_fs_dm_pa11: usb_otg_fs_dm_pa11 {
+				pinmux = < 0x16a >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3679 */
+				phandle = < 0x3f >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:164 */
+			};
+
+			/* node '/soc/pin-controller@42020000/usb_otg_fs_dp_pa12' defined in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3682 */
+			usb_otg_fs_dp_pa12: usb_otg_fs_dp_pa12 {
+				pinmux = < 0x18a >; /* in modules/hal/stm32/dts/st/u5/stm32u585aiixq-pinctrl.dtsi:3683 */
+				phandle = < 0x40 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:164 */
+			};
+		};
+
+		/* node '/soc/watchdog@40003000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:273 */
+		iwdg: watchdog@40003000 {
+			compatible = "st,stm32-watchdog"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:274 */
+			reg = < 0x40003000 0x400 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:275 */
+			status = "okay";                  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:243 */
+		};
+
+		/* node '/soc/watchdog@40002c00' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:279 */
+		wwdg: wwdg1: watchdog@40002c00 {
+			compatible = "st,stm32-window-watchdog"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:280 */
+			reg = < 0x40002c00 0x1000 >;             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:281 */
+			clocks = < &rcc 0x9c 0x800 >;            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:282 */
+			interrupts = < 0x0 0x7 >;                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:283 */
+			status = "disabled";                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:284 */
+		};
+
+		/* node '/soc/memory@40036400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:287 */
+		backup_sram: memory@40036400 {
+			compatible = "zephyr,memory-region",
+			             "st,stm32-backup-sram";  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:288 */
+			reg = < 0x40036400 0x800 >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:289 */
+			clocks = < &rcc 0x88 0x10020000 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:291 */
+			zephyr,memory-region = "BACKUP_SRAM"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:292 */
+			status = "okay";                      /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:48 */
+		};
+
+		/* node '/soc/serial@40013800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:296 */
+		usart1: arduino_serial: serial@40013800 {
+			compatible = "st,stm32-usart",
+			             "st,stm32-uart";                  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:297 */
+			reg = < 0x40013800 0x400 >;                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:298 */
+			clocks = < &rcc 0xa4 0x4000 >;                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:299 */
+			resets = < &rctl 0xf8e >;                      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:300 */
+			interrupts = < 0x3d 0x0 >;                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:301 */
+			status = "okay";                               /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:118 */
+			pinctrl-0 = < &usart1_tx_pb6 &usart1_rx_pb7 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:119 */
+			pinctrl-names = "default";                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:120 */
+			current-speed = < 0x1c200 >;                   /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:121 */
+			phandle = < 0x5b >;                            /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:336 */
+		};
+
+		/* node '/soc/serial@40004800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:305 */
+		usart3: serial@40004800 {
+			compatible = "st,stm32-usart",
+			             "st,stm32-uart";   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:306 */
+			reg = < 0x40004800 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:307 */
+			clocks = < &rcc 0x9c 0x40000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:308 */
+			resets = < &rctl 0xe92 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:309 */
+			interrupts = < 0x3f 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:310 */
+			status = "disabled";            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:311 */
+		};
+
+		/* node '/soc/serial@40004c00' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:314 */
+		uart4: serial@40004c00 {
+			compatible = "st,stm32-uart";   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:315 */
+			reg = < 0x40004c00 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:316 */
+			clocks = < &rcc 0x9c 0x80000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:317 */
+			resets = < &rctl 0xe93 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:318 */
+			interrupts = < 0x40 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:319 */
+			status = "disabled";            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:320 */
+		};
+
+		/* node '/soc/serial@40005000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:323 */
+		uart5: serial@40005000 {
+			compatible = "st,stm32-uart";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:324 */
+			reg = < 0x40005000 0x400 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:325 */
+			clocks = < &rcc 0x9c 0x100000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:326 */
+			resets = < &rctl 0xe94 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:327 */
+			interrupts = < 0x41 0x0 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:328 */
+			status = "disabled";             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:329 */
+		};
+
+		/* node '/soc/serial@46002400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:332 */
+		lpuart1: serial@46002400 {
+			compatible = "st,stm32-lpuart",
+			             "st,stm32-uart";                                                      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:333 */
+			reg = < 0x46002400 0x400 >;                                                        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:334 */
+			clocks = < &rcc 0xa8 0x40 >;                                                       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:335 */
+			resets = < &rctl 0x1006 >;                                                         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:336 */
+			interrupts = < 0x42 0x0 >;                                                         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:337 */
+			pinctrl-0 = < &lpuart1_tx_pg7 &lpuart1_rx_pg8 &lpuart1_rts_pg6 &lpuart1_cts_pg5 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:106 */
+			pinctrl-names = "default";                                                         /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:108 */
+			current-speed = < 0x1c200 >;                                                       /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:109 */
+			status = "okay";                                                                   /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:110 */
+			phandle = < 0x5a >;                                                                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:335 */
+		};
+
+		/* node '/soc/spi@40013000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:341 */
+		spi1: spi@40013000 {
+			compatible = "st,stm32h7-spi",
+			             "st,stm32-spi-fifo",
+			             "st,stm32-spi";      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:342 */
+			#address-cells = < 0x1 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:343 */
+			#size-cells = < 0x0 >;            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:344 */
+			reg = < 0x40013000 0x400 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:345 */
+			interrupts = < 0x3b 0x5 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:346 */
+			clocks = < &rcc 0xa4 0x1000 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:347 */
+			status = "disabled";              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:348 */
+		};
+
+		/* node '/soc/spi@40003800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:351 */
+		spi2: arduino_spi: spi@40003800 {
+			compatible = "st,stm32h7-spi",
+			             "st,stm32-spi-fifo",
+			             "st,stm32-spi";                                                  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:352 */
+			#address-cells = < 0x1 >;                                                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:353 */
+			#size-cells = < 0x0 >;                                                        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:354 */
+			reg = < 0x40003800 0x400 >;                                                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:355 */
+			interrupts = < 0x3c 0x5 >;                                                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:356 */
+			clocks = < &rcc 0x9c 0x4000 >;                                                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:357 */
+			status = "okay";                                                              /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:140 */
+			pinctrl-0 = < &spi2_sck_pb13 &spi2_miso_pb14 &spi2_mosi_pb15 &spi2_nss_pb9 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:141 */
+			pinctrl-1 = < &spi2_sck_pd1 &spi2_miso_pc2 &spi2_mosi_pc3 >;                  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:143 */
+			pinctrl-names = "default",
+			                "sleep";                                                      /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:145 */
+			phandle = < 0x5d >;                                                           /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:339 */
+		};
+
+		/* node '/soc/spi@46002000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:361 */
+		spi3: spi@46002000 {
+			compatible = "st,stm32h7-spi",
+			             "st,stm32-spi-fifo",
+			             "st,stm32-spi";                                                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:362 */
+			#address-cells = < 0x1 >;                                                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:363 */
+			#size-cells = < 0x0 >;                                                       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:364 */
+			reg = < 0x46002000 0x400 >;                                                  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:365 */
+			interrupts = < 0x63 0x5 >;                                                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:366 */
+			clocks = < &rcc 0xa8 0x20 >;                                                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:367 */
+			status = "okay";                                                             /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:149 */
+			pinctrl-0 = < &spi3_sck_pg9 &spi3_miso_pg10 &spi3_mosi_pb5 &spi3_nss_pg12 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:150 */
+			pinctrl-names = "default";                                                   /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:152 */
+			phandle = < 0x5e >;                                                          /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:339 */
+
+			/* node '/soc/spi@46002000/device@0' defined in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:198 */
+			device0: device@0 {
+				compatible = "zephyr,spi-slave"; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:199 */
+				reg = < 0x0 >;                   /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:200 */
+				zephyr,deferred-init;            /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:201 */
+			};
+		};
+
+		/* node '/soc/i2c@40005400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:371 */
+		i2c1: i2c@40005400 {
+			compatible = "st,stm32-i2c-v2";  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:372 */
+			clock-frequency = < 0x186a0 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:373 */
+			#address-cells = < 0x1 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:374 */
+			#size-cells = < 0x0 >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:375 */
+			reg = < 0x40005400 0x400 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:376 */
+			clocks = < &rcc 0x9c 0x200000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:377 */
+			interrupts = < 0x37 0x0 >,
+			             < 0x38 0x0 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:378 */
+			interrupt-names = "event",
+			                  "error";       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:379 */
+			status = "disabled";             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:380 */
+			phandle = < 0x52 >;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:959 */
+		};
+
+		/* node '/soc/i2c@40005800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:383 */
+		i2c2: arduino_i2c: i2c@40005800 {
+			compatible = "st,stm32-i2c-v2";                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:384 */
+			#address-cells = < 0x1 >;                      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:386 */
+			#size-cells = < 0x0 >;                         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:387 */
+			reg = < 0x40005800 0x400 >;                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:388 */
+			clocks = < &rcc 0x9c 0x400000 >;               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:389 */
+			interrupts = < 0x39 0x0 >,
+			             < 0x3a 0x0 >;                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:390 */
+			interrupt-names = "event",
+			                  "error";                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:391 */
+			status = "okay";                               /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:125 */
+			pinctrl-0 = < &i2c2_scl_pb10 &i2c2_sda_pb11 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:126 */
+			pinctrl-names = "default";                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:127 */
+			clock-frequency = < 0x61a80 >;                 /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:128 */
+			phandle = < 0x53 >;                            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:967 */
+		};
+
+		/* node '/soc/i2c@46002800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:395 */
+		i2c3: i2c@46002800 {
+			compatible = "st,stm32-i2c-v2";              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:396 */
+			#address-cells = < 0x1 >;                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:398 */
+			#size-cells = < 0x0 >;                       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:399 */
+			reg = < 0x46002800 0x400 >;                  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:400 */
+			clocks = < &rcc 0xa8 0x80 >;                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:401 */
+			interrupts = < 0x58 0x0 >,
+			             < 0x59 0x0 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:402 */
+			interrupt-names = "event",
+			                  "error";                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:403 */
+			status = "okay";                             /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:32 */
+			pinctrl-0 = < &i2c3_scl_pc0 &i2c3_sda_pc1 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:33 */
+			pinctrl-names = "default";                   /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:34 */
+			clock-frequency = < 0x61a80 >;               /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:35 */
+			phandle = < 0x54 >;                          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:975 */
+		};
+
+		/* node '/soc/i2c@40008400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:407 */
+		i2c4: i2c@40008400 {
+			compatible = "st,stm32-i2c-v2";                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:408 */
+			#address-cells = < 0x1 >;                      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:410 */
+			#size-cells = < 0x0 >;                         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:411 */
+			reg = < 0x40008400 0x400 >;                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:412 */
+			clocks = < &rcc 0xa0 0x2 >;                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:413 */
+			interrupts = < 0x65 0x0 >,
+			             < 0x64 0x0 >;                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:414 */
+			interrupt-names = "event",
+			                  "error";                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:415 */
+			status = "okay";                               /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:8 */
+			pinctrl-0 = < &i2c4_scl_pd12 &i2c4_sda_pd13 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:9 */
+			pinctrl-1 = < &i2c4_scl_pf14 &i2c4_sda_pf15 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:10 */
+			pinctrl-names = "default",
+			                "sleep";                       /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:11 */
+			clock-frequency = < 0x61a80 >;                 /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:12 */
+			phandle = < 0x55 >;                            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:983 */
+		};
+
+		/* node '/soc/timers@46004400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:419 */
+		lptim1: stm32_lp_tick_source: timers@46004400 {
+			compatible = "st,stm32-lptim";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:420 */
+			#address-cells = < 0x1 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:421 */
+			#size-cells = < 0x0 >;            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:422 */
+			reg = < 0x46004400 0x400 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:423 */
+			interrupts = < 0x43 0x1 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:425 */
+			interrupt-names = "wakeup";       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:426 */
+			clocks = < &rcc 0xa8 0x800 >,
+			         < &rcc 0x2 0x18ca00e8 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:96 */
+			status = "okay";                  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:98 */
+		};
+
+		/* node '/soc/timers@40009400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:430 */
+		lptim2: timers@40009400 {
+			compatible = "st,stm32-lptim"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:431 */
+			#address-cells = < 0x1 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:432 */
+			#size-cells = < 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:433 */
+			reg = < 0x40009400 0x400 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:434 */
+			clocks = < &rcc 0xa0 0x20 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:435 */
+			interrupts = < 0x44 0x0 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:436 */
+			interrupt-names = "global";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:437 */
+			status = "disabled";           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:438 */
+		};
+
+		/* node '/soc/timers@46004800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:441 */
+		lptim3: timers@46004800 {
+			compatible = "st,stm32-lptim"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:442 */
+			#address-cells = < 0x1 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:443 */
+			#size-cells = < 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:444 */
+			reg = < 0x46004800 0x400 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:445 */
+			clocks = < &rcc 0xa8 0x1000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:446 */
+			interrupts = < 0x62 0x0 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:447 */
+			interrupt-names = "global";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:448 */
+			status = "disabled";           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:449 */
+		};
+
+		/* node '/soc/timers@46004c00' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:452 */
+		lptim4: timers@46004c00 {
+			compatible = "st,stm32-lptim"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:453 */
+			#address-cells = < 0x1 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:454 */
+			#size-cells = < 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:455 */
+			reg = < 0x46004c00 0x400 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:456 */
+			clocks = < &rcc 0xa8 0x2000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:457 */
+			interrupts = < 0x6e 0x0 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:458 */
+			interrupt-names = "global";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:459 */
+			status = "disabled";           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:460 */
+		};
+
+		/* node '/soc/rtc@46007800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:463 */
+		rtc: rtc@46007800 {
+			compatible = "st,stm32-rtc";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:464 */
+			reg = < 0x46007800 0x400 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:465 */
+			interrupts = < 0x2 0x0 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:466 */
+			prescaler = < 0x8000 >;          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:468 */
+			alarms-count = < 0x2 >;          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:469 */
+			status = "okay";                 /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:206 */
+			clocks = < &rcc 0xa8 0x200000 >,
+			         < &rcc 0x2 0x8c800f0 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:207 */
+		};
+
+		/* node '/soc/sai1@40015404' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:473 */
+		sai1_a: sai1@40015404 {
+			compatible = "st,stm32-sai";      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:474 */
+			#address-cells = < 0x1 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:475 */
+			#size-cells = < 0x0 >;            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:476 */
+			reg = < 0x40015404 0x20 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:477 */
+			clocks = < &rcc 0xa4 0x200000 >,
+			         < &rcc 0x10 0x1c500e4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:478 */
+			dmas = < &gpdma1 0x1 0x24 0x0 >;  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:480 */
+			status = "disabled";              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:481 */
+		};
+
+		/* node '/soc/sai1@40015424' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:484 */
+		sai1_b: sai1@40015424 {
+			compatible = "st,stm32-sai";      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:485 */
+			#address-cells = < 0x1 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:486 */
+			#size-cells = < 0x0 >;            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:487 */
+			reg = < 0x40015424 0x20 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:488 */
+			clocks = < &rcc 0xa4 0x200000 >,
+			         < &rcc 0x10 0x1c500e4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:489 */
+			dmas = < &gpdma1 0x0 0x25 0x0 >;  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:491 */
+			status = "disabled";              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:492 */
+		};
+
+		/* node '/soc/timers@40012c00' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:495 */
+		timers1: timers@40012c00 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:496 */
+			reg = < 0x40012c00 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:497 */
+			clocks = < &rcc 0xa4 0x800 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:498 */
+			resets = < &rctl 0xf8b >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:499 */
+			interrupts = < 0x29 0x0 >,
+			             < 0x2a 0x0 >,
+			             < 0x2b 0x0 >,
+			             < 0x2c 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:500 */
+			interrupt-names = "brk",
+			                  "up",
+			                  "trgcom",
+			                  "cc";         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:501 */
+			status = "okay";                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:103 */
+			st,prescaler = < 0x3f >;        /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:104 */
+
+			/* node '/soc/timers@40012c00/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:504 */
+			pwm1: pwm {
+				compatible = "st,stm32-pwm";                                                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:505 */
+				#pwm-cells = < 0x3 >;                                                           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:507 */
+				status = "okay";                                                                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:107 */
+				pinctrl-0 = < &tim1_ch4_pa11 &tim1_ch3n_pb15 &tim1_ch2n_pb14 &tim1_ch1n_pb13 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:110 */
+				pinctrl-names = "default";                                                      /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:111 */
+				phandle = < 0x61 >;                                                             /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:342 */
+			};
+		};
+
+		/* node '/soc/timers@40000000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:511 */
+		timers2: timers@40000000 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:512 */
+			reg = < 0x40000000 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:513 */
+			clocks = < &rcc 0x9c 0x1 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:514 */
+			resets = < &rctl 0xe80 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:515 */
+			interrupts = < 0x2d 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:516 */
+			interrupt-names = "global";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:517 */
+			status = "okay";                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:118 */
+			st,prescaler = < 0x4 >;         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:119 */
+
+			/* node '/soc/timers@40000000/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:520 */
+			pwm2: pwm {
+				compatible = "st,stm32-pwm";                                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:521 */
+				#pwm-cells = < 0x3 >;                                        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:523 */
+				status = "okay";                                             /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:122 */
+				pinctrl-0 = < &tim2_ch2_pb3 &tim2_ch3_pb10 &tim2_ch4_pb11 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:123 */
+				pinctrl-names = "default";                                   /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:124 */
+				phandle = < 0x5f >;                                          /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:342 */
+			};
+		};
+
+		/* node '/soc/timers@40000400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:527 */
+		timers3: timers@40000400 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:528 */
+			reg = < 0x40000400 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:529 */
+			clocks = < &rcc 0x9c 0x2 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:530 */
+			resets = < &rctl 0xe81 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:531 */
+			interrupts = < 0x2e 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:532 */
+			interrupt-names = "global";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:533 */
+			status = "okay";                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:129 */
+			st,prescaler = < 0x4 >;         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:130 */
+
+			/* node '/soc/timers@40000400/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:536 */
+			pwm3: pwm {
+				compatible = "st,stm32-pwm";                               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:537 */
+				#pwm-cells = < 0x3 >;                                      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:539 */
+				status = "okay";                                           /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:133 */
+				pinctrl-0 = < &tim3_ch3_pb0 &tim3_ch4_pb1 &tim3_ch1_pb4 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:135 */
+				pinctrl-names = "default";                                 /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:136 */
+				phandle = < 0x60 >;                                        /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:342 */
+			};
+		};
+
+		/* node '/soc/timers@40000800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:543 */
+		timers4: timers@40000800 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:544 */
+			reg = < 0x40000800 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:545 */
+			clocks = < &rcc 0x9c 0x4 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:546 */
+			resets = < &rctl 0xe82 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:547 */
+			interrupts = < 0x2f 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:548 */
+			interrupt-names = "global";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:549 */
+			status = "okay";                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:141 */
+			st,prescaler = < 0x4 >;         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:142 */
+
+			/* node '/soc/timers@40000800/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:552 */
+			pwm4: pwm {
+				compatible = "st,stm32-pwm";                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:553 */
+				#pwm-cells = < 0x3 >;                        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:555 */
+				status = "okay";                             /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:145 */
+				pinctrl-0 = < &tim4_ch3_pb8 &tim4_ch4_pb9 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:148 */
+				pinctrl-names = "default";                   /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:149 */
+				phandle = < 0x63 >;                          /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:342 */
+			};
+
+			/* node '/soc/timers@40000800/counter' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:558 */
+			counter {
+				compatible = "st,stm32-counter"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:559 */
+				status = "disabled";             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:560 */
+			};
+		};
+
+		/* node '/soc/timers@40000c00' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:564 */
+		timers5: timers@40000c00 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:565 */
+			reg = < 0x40000c00 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:566 */
+			clocks = < &rcc 0x9c 0x8 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:567 */
+			resets = < &rctl 0xe83 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:568 */
+			interrupts = < 0x30 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:569 */
+			interrupt-names = "global";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:570 */
+			status = "okay";                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:154 */
+			st,prescaler = < 0x4 >;         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:155 */
+
+			/* node '/soc/timers@40000c00/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:573 */
+			pwm5: pwm {
+				compatible = "st,stm32-pwm";                                  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:574 */
+				#pwm-cells = < 0x3 >;                                         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:576 */
+				status = "okay";                                              /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:158 */
+				pinctrl-0 = < &tim5_ch1_ph10 &tim5_ch2_ph11 &tim5_ch3_ph12 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:159 */
+				pinctrl-names = "default";                                    /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:160 */
+				phandle = < 0x64 >;                                           /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:342 */
+			};
+
+			/* node '/soc/timers@40000c00/counter' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:579 */
+			counter {
+				compatible = "st,stm32-counter"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:580 */
+				status = "disabled";             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:581 */
+			};
+		};
+
+		/* node '/soc/timers@40001000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:585 */
+		timers6: timers@40001000 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:586 */
+			reg = < 0x40001000 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:587 */
+			clocks = < &rcc 0x9c 0x10 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:588 */
+			resets = < &rctl 0xe84 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:589 */
+			interrupts = < 0x31 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:590 */
+			interrupt-names = "global";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:591 */
+			status = "disabled";            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:592 */
+
+			/* node '/soc/timers@40001000/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:594 */
+			pwm {
+				compatible = "st,stm32-pwm"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:595 */
+				status = "disabled";         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:596 */
+				#pwm-cells = < 0x3 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:597 */
+			};
+		};
+
+		/* node '/soc/timers@40001400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:601 */
+		timers7: timers@40001400 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:602 */
+			reg = < 0x40001400 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:603 */
+			clocks = < &rcc 0x9c 0x20 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:604 */
+			resets = < &rctl 0xe85 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:605 */
+			interrupts = < 0x32 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:606 */
+			interrupt-names = "global";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:607 */
+			status = "disabled";            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:608 */
+
+			/* node '/soc/timers@40001400/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:610 */
+			pwm {
+				compatible = "st,stm32-pwm"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:611 */
+				status = "disabled";         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:612 */
+				#pwm-cells = < 0x3 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:613 */
+			};
+		};
+
+		/* node '/soc/timers@40013400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:617 */
+		timers8: timers@40013400 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:618 */
+			reg = < 0x40013400 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:619 */
+			clocks = < &rcc 0xa4 0x2000 >;  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:620 */
+			resets = < &rctl 0xf8d >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:621 */
+			interrupts = < 0x33 0x0 >,
+			             < 0x34 0x0 >,
+			             < 0x35 0x0 >,
+			             < 0x36 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:622 */
+			interrupt-names = "brk",
+			                  "up",
+			                  "trgcom",
+			                  "cc";         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:623 */
+			status = "okay";                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:166 */
+			st,prescaler = < 0x3f >;        /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:167 */
+
+			/* node '/soc/timers@40013400/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:626 */
+			pwm8: pwm {
+				compatible = "st,stm32-pwm";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:627 */
+				#pwm-cells = < 0x3 >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:629 */
+				status = "okay";                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:170 */
+				pinctrl-0 = < &tim8_ch4n_pb2 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:171 */
+				pinctrl-names = "default";      /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:172 */
+				phandle = < 0x62 >;             /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:342 */
+			};
+		};
+
+		/* node '/soc/timers@40014000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:633 */
+		timers15: timers@40014000 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:634 */
+			reg = < 0x40014000 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:635 */
+			clocks = < &rcc 0xa4 0x10000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:636 */
+			resets = < &rctl 0xf90 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:637 */
+			interrupts = < 0x45 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:638 */
+			interrupt-names = "global";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:639 */
+			status = "disabled";            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:640 */
+
+			/* node '/soc/timers@40014000/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:642 */
+			pwm {
+				compatible = "st,stm32-pwm"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:643 */
+				status = "disabled";         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:644 */
+				#pwm-cells = < 0x3 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:645 */
+			};
+
+			/* node '/soc/timers@40014000/counter' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:648 */
+			counter {
+				compatible = "st,stm32-counter"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:649 */
+				status = "disabled";             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:650 */
+			};
+		};
+
+		/* node '/soc/timers@40014400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:654 */
+		timers16: timers@40014400 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:655 */
+			reg = < 0x40014400 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:656 */
+			clocks = < &rcc 0xa4 0x20000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:657 */
+			resets = < &rctl 0xf91 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:658 */
+			interrupts = < 0x46 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:659 */
+			interrupt-names = "global";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:660 */
+			status = "okay";                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:177 */
+			st,prescaler = < 0x4 >;         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:178 */
+
+			/* node '/soc/timers@40014400/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:663 */
+			pwm {
+				compatible = "st,stm32-pwm"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:664 */
+				status = "disabled";         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:665 */
+				#pwm-cells = < 0x3 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:666 */
+			};
+
+			/* node '/soc/timers@40014400/counter' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:669 */
+			counter_servo: counter {
+				compatible = "st,stm32-counter"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:670 */
+				status = "okay";                 /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:181 */
+				label = "SERVO_COUNTER";         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:182 */
+			};
+		};
+
+		/* node '/soc/timers@40014800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:675 */
+		timers17: timers@40014800 {
+			compatible = "st,stm32-timers"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:676 */
+			reg = < 0x40014800 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:677 */
+			clocks = < &rcc 0xa4 0x40000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:678 */
+			resets = < &rctl 0xf92 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:679 */
+			interrupts = < 0x47 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:680 */
+			interrupt-names = "global";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:681 */
+			status = "okay";                /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:188 */
+			st,prescaler = < 0x4 >;         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:189 */
+
+			/* node '/soc/timers@40014800/pwm' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:684 */
+			pwm {
+				compatible = "st,stm32-pwm"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:685 */
+				status = "disabled";         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:686 */
+				#pwm-cells = < 0x3 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:687 */
+			};
+
+			/* node '/soc/timers@40014800/counter' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:690 */
+			counter_matrix: counter {
+				compatible = "st,stm32-counter"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:691 */
+				status = "okay";                 /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:192 */
+				label = "LED_MATRIX_COUNTER";    /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:193 */
+			};
+		};
+
+		/* node '/soc/spi@420d1400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:696 */
+		octospi1: spi@420d1400 {
+			compatible = "st,stm32-ospi";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:697 */
+			reg = < 0x420d1400 0x400 >,
+			      < 0x90000000 0x10000000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:698 */
+			interrupts = < 0x4c 0x0 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:699 */
+			clock-names = "ospix",
+			              "ospi-ker",
+			              "ospi-mgr";        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:700 */
+			clocks = < &rcc 0x90 0x10 >,
+			         < &rcc 0x1 0xd400e4 >,
+			         < &rcc 0x8c 0x200000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:701 */
+			#address-cells = < 0x1 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:704 */
+			#size-cells = < 0x0 >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:705 */
+			status = "disabled";             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:706 */
+		};
+
+		/* node '/soc/spi@420d2400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:709 */
+		octospi2: spi@420d2400 {
+			compatible = "st,stm32-ospi";    /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:59 */
+			reg = < 0x420d2400 0x400 >,
+			      < 0x70000000 0x10000000 >; /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:60 */
+			interrupts = < 0x78 0x0 >;       /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:61 */
+			clock-names = "ospix",
+			              "ospi-ker",
+			              "ospi-mgr";        /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:62 */
+			clocks = < &rcc 0x90 0x100 >,
+			         < &rcc 0x1 0xd400e4 >,
+			         < &rcc 0x8c 0x200000 >; /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:63 */
+			#address-cells = < 0x1 >;        /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:66 */
+			#size-cells = < 0x0 >;           /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:67 */
+			status = "disabled";             /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:68 */
+		};
+
+		/* node '/soc/rng@420c0800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:722 */
+		rng: rng@420c0800 {
+			compatible = "st,stm32-rng";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:723 */
+			reg = < 0x420c0800 0x400 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:724 */
+			clocks = < &rcc 0x8c 0x40000 >;  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:725 */
+			interrupts = < 0x5e 0x0 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:726 */
+			nist-config = < 0xf60d00 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:727 */
+			health-test-config = < 0x9aae >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:728 */
+			status = "okay";                 /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:160 */
+		};
+
+		/* node '/soc/sdmmc@420c8000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:741 */
+		sdmmc1: sdmmc@420c8000 {
+			compatible = "st,stm32-sdmmc";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:742 */
+			reg = < 0x420c8000 0x400 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:743 */
+			clocks = < &rcc 0x8c 0x8000000 >,
+			         < &rcc 0x6 0x4e00e4 >;   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:744 */
+			resets = < &rctl 0xc9b >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:746 */
+			interrupts = < 0x4e 0x0 >;        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:747 */
+			status = "disabled";              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:748 */
+		};
+
+		/* node '/soc/dac@46021800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:751 */
+		dac1: dac@46021800 {
+			compatible = "st,stm32-dac";                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:752 */
+			reg = < 0x46021800 0x400 >;                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:753 */
+			clocks = < &rcc 0x94 0x40 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:754 */
+			#io-channel-cells = < 0x1 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:756 */
+			pinctrl-0 = < &dac1_out1_pa4 &dac1_out2_pa5 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:231 */
+			pinctrl-names = "default";                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:232 */
+			status = "okay";                               /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:233 */
+			phandle = < 0x65 >;                            /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:375 */
+		};
+
+		/* node '/soc/adc@42028000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:759 */
+		adc1: adc@42028000 {
+			compatible = "st,stm32-adc";                                                                            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:760 */
+			reg = < 0x42028000 0x400 >;                                                                             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:761 */
+			clocks = < &rcc 0x8c 0x400 >,
+			         < &rcc 0x9 0x1cc00e8 >;                                                                        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:762 */
+			interrupts = < 0x25 0x0 >;                                                                              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:764 */
+			#io-channel-cells = < 0x1 >;                                                                            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:766 */
+			resolutions = < 0x70620c 0x61620c 0x52620c 0x43620c >;                                                  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:767 */
+			sampling-times = < 0x5 0x6 0xc 0x14 0x24 0x44 0x187 0x32e >;                                            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:771 */
+			st,adc-clock-source = "ASYNC";                                                                          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:772 */
+			st,adc-sequencer = "FULLY_CONFIGURABLE";                                                                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:773 */
+			st,adc-oversampler = "OVERSAMPLER_EXTENDED";                                                            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:774 */
+			pinctrl-0 = < &adc1_in9_pa4 &adc1_in10_pa5 &adc1_in11_pa6 &adc1_in12_pa7 &adc1_in2_pc1 &adc1_in1_pc0 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:170 */
+			pinctrl-names = "default";                                                                              /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:176 */
+			#address-cells = < 0x1 >;                                                                               /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:179 */
+			#size-cells = < 0x0 >;                                                                                  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:180 */
+			st,adc-prescaler = < 0x4 >;                                                                             /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:75 */
+			status = "okay";                                                                                        /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:76 */
+			phandle = < 0x50 >;                                                                                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:919 */
+
+			/* node '/soc/adc@42028000/channel@1' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:182 */
+			channel@1 {
+				reg = < 0x1 >;                         /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:183 */
+				zephyr,gain = "ADC_GAIN_1";            /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:184 */
+				zephyr,reference = "ADC_REF_INTERNAL"; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:185 */
+				zephyr,acquisition-time = < 0x3fff >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:186 */
+				zephyr,resolution = < 0xe >;           /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:187 */
+			};
+
+			/* node '/soc/adc@42028000/channel@2' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:189 */
+			channel@2 {
+				reg = < 0x2 >;                         /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:190 */
+				zephyr,gain = "ADC_GAIN_1";            /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:191 */
+				zephyr,reference = "ADC_REF_INTERNAL"; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:192 */
+				zephyr,acquisition-time = < 0x3fff >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:193 */
+				zephyr,resolution = < 0xe >;           /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:194 */
+			};
+
+			/* node '/soc/adc@42028000/channel@9' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:196 */
+			channel@9 {
+				reg = < 0x9 >;                         /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:197 */
+				zephyr,gain = "ADC_GAIN_1";            /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:198 */
+				zephyr,reference = "ADC_REF_INTERNAL"; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:199 */
+				zephyr,acquisition-time = < 0x3fff >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:200 */
+				zephyr,resolution = < 0xe >;           /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:201 */
+			};
+
+			/* node '/soc/adc@42028000/channel@a' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:203 */
+			channel@a {
+				reg = < 0xa >;                         /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:204 */
+				zephyr,gain = "ADC_GAIN_1";            /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:205 */
+				zephyr,reference = "ADC_REF_INTERNAL"; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:206 */
+				zephyr,acquisition-time = < 0x3fff >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:207 */
+				zephyr,resolution = < 0xe >;           /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:208 */
+			};
+
+			/* node '/soc/adc@42028000/channel@b' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:210 */
+			channel@b {
+				reg = < 0xb >;                         /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:211 */
+				zephyr,gain = "ADC_GAIN_1";            /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:212 */
+				zephyr,reference = "ADC_REF_INTERNAL"; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:213 */
+				zephyr,acquisition-time = < 0x3fff >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:214 */
+				zephyr,resolution = < 0xe >;           /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:215 */
+			};
+
+			/* node '/soc/adc@42028000/channel@c' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:217 */
+			channel@c {
+				reg = < 0xc >;                         /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:218 */
+				zephyr,gain = "ADC_GAIN_1";            /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:219 */
+				zephyr,reference = "ADC_REF_INTERNAL"; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:220 */
+				zephyr,acquisition-time = < 0x3fff >;  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:221 */
+				zephyr,resolution = < 0xe >;           /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:222 */
+			};
+		};
+
+		/* node '/soc/adc@46021000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:777 */
+		adc4: adc@46021000 {
+			compatible = "st,stm32-adc";                               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:778 */
+			reg = < 0x46021000 0x400 >;                                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:779 */
+			clocks = < &rcc 0x94 0x20 >,
+			         < &rcc 0x9 0x1cc00e8 >;                           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:780 */
+			interrupts = < 0x71 0x0 >;                                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:782 */
+			status = "disabled";                                       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:783 */
+			#io-channel-cells = < 0x1 >;                               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:784 */
+			resolutions = < 0x60620c 0x51620c 0x42620c 0x33620c >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:785 */
+			sampling-times = < 0x2 0x4 0x8 0xd 0x14 0x28 0x50 0x32f >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:789 */
+			num-sampling-time-common-channels = < 0x2 >;               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:790 */
+			st,adc-clock-source = "ASYNC";                             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:791 */
+			st,adc-sequencer = "NOT_FULLY_CONFIGURABLE";               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:792 */
+			st,adc-oversampler = "OVERSAMPLER_MINIMAL";                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:793 */
+			phandle = < 0x51 >;                                        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:937 */
+		};
+
+		/* node '/soc/can@4000a400' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:796 */
+		fdcan1: can@4000a400 {
+			compatible = "st,stm32-fdcan";                         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:797 */
+			reg = < 0x4000a400 0x400 >,
+			      < 0x4000ac00 0x350 >;                            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:798 */
+			reg-names = "m_can",
+			            "message_ram";                             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:799 */
+			interrupts = < 0x27 0x0 >,
+			             < 0x28 0x0 >;                             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:800 */
+			interrupt-names = "int0",
+			                  "int1";                              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:801 */
+			bosch,mram-cfg = < 0x0 0x1c 0x8 0x3 0x3 0x0 0x3 0x3 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:803 */
+			status = "okay";                                       /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:212 */
+			pinctrl-0 = < &fdcan1_rx_pa11 &fdcan1_tx_pa12 >;       /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:213 */
+			pinctrl-names = "default";                             /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:214 */
+			clocks = < &rcc 0xa0 0x200 >,
+			         < &rcc 0xe 0x8d800e0 >;                       /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:215 */
+			phandle = < 0x5c >;                                    /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:337 */
+		};
+
+		/* node '/soc/dma@40020000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:807 */
+		gpdma1: dma@40020000 {
+			compatible = "st,stm32u5-dma";                                                                  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:808 */
+			#dma-cells = < 0x3 >;                                                                           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:809 */
+			reg = < 0x40020000 0x400 >;                                                                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:810 */
+			interrupts = < 0x1d 0x0 0x1e 0x0 0x1f 0x0 0x20 0x0 0x21 0x0 0x22 0x0 0x23 0x0 0x24 0x0 0x50 0x0
+			               0x51 0x0 0x52 0x0 0x53 0x0 0x54 0x0 0x55 0x0 0x56 0x0 0x57 0x0 >;                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:811 */
+			clocks = < &rcc 0x88 0x1 >;                                                                     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:813 */
+			dma-channels = < 0x10 >;                                                                        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:814 */
+			dma-requests = < 0x72 >;                                                                        /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:815 */
+			dma-offset = < 0x0 >;                                                                           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:816 */
+			status = "okay";                                                                                /* in zephyr/boards/arduino/uno_q/arduino_uno_q.dts:71 */
+			phandle = < 0x1e >;                                                                             /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:480 */
+		};
+
+		/* node '/soc/dcmi@4202c000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:820 */
+		dcmi: dcmi@4202c000 {
+			compatible = "st,stm32-dcmi";  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:821 */
+			reg = < 0x4202c000 0x400 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:822 */
+			interrupts = < 0x77 0x0 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:823 */
+			interrupt-names = "dcmi";      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:824 */
+			clocks = < &rcc 0x8c 0x1000 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:825 */
+			status = "disabled";           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:826 */
+		};
+
+		/* node '/soc/power@46020800' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:829 */
+		pwr: power@46020800 {
+			compatible = "st,stm32-pwr"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:830 */
+			reg = < 0x46020800 0x400 >;  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:831 */
+			status = "disabled";         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:832 */
+			wkup-pins-nb = < 0x8 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:834 */
+			wkup-pin-srcs = < 0x3 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:835 */
+			wkup-pins-pol;               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:836 */
+			wkup-pins-pupd;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:837 */
+			#address-cells = < 0x1 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:839 */
+			#size-cells = < 0x0 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:840 */
+
+			/* node '/soc/power@46020800/wkup-pin@1' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:842 */
+			wkup-pin@1 {
+				reg = < 0x1 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:843 */
+				wkup-gpios = < &gpioa 0x0 0x1 >,
+				             < &gpiob 0x2 0x2 >,
+				             < &gpioe 0x4 0x4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:844 */
+			};
+
+			/* node '/soc/power@46020800/wkup-pin@2' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:849 */
+			wkup-pin@2 {
+				reg = < 0x2 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:850 */
+				wkup-gpios = < &gpioa 0x4 0x1 >,
+				             < &gpioc 0xd 0x2 >,
+				             < &gpioe 0x5 0x4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:851 */
+			};
+
+			/* node '/soc/power@46020800/wkup-pin@3' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:856 */
+			wkup-pin@3 {
+				reg = < 0x3 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:857 */
+				wkup-gpios = < &gpioe 0x6 0x1 >,
+				             < &gpioa 0x1 0x2 >,
+				             < &gpiob 0x6 0x4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:858 */
+			};
+
+			/* node '/soc/power@46020800/wkup-pin@4' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:863 */
+			wkup-pin@4 {
+				reg = < 0x4 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:864 */
+				wkup-gpios = < &gpioa 0x2 0x1 >,
+				             < &gpiob 0x1 0x2 >,
+				             < &gpiob 0x7 0x4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:865 */
+			};
+
+			/* node '/soc/power@46020800/wkup-pin@5' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:870 */
+			wkup-pin@5 {
+				reg = < 0x5 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:871 */
+				wkup-gpios = < &gpioc 0x5 0x1 >,
+				             < &gpioa 0x3 0x2 >,
+				             < &gpiob 0x8 0x4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:872 */
+			};
+
+			/* node '/soc/power@46020800/wkup-pin@6' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:877 */
+			wkup-pin@6 {
+				reg = < 0x6 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:878 */
+				wkup-gpios = < &gpiob 0x5 0x1 >,
+				             < &gpioa 0x5 0x2 >,
+				             < &gpioe 0x7 0x4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:879 */
+			};
+
+			/* node '/soc/power@46020800/wkup-pin@7' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:884 */
+			wkup-pin@7 {
+				reg = < 0x7 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:885 */
+				wkup-gpios = < &gpiob 0xf 0x1 >,
+				             < &gpioa 0x6 0x2 >,
+				             < &gpioe 0x8 0x4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:886 */
+			};
+
+			/* node '/soc/power@46020800/wkup-pin@8' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:891 */
+			wkup-pin@8 {
+				reg = < 0x8 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:892 */
+				wkup-gpios = < &gpiof 0x2 0x1 >,
+				             < &gpioa 0x7 0x2 >,
+				             < &gpiob 0xa 0x4 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:893 */
+			};
+		};
+
+		/* node '/soc/serial@40004400' defined in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:9 */
+		usart2: serial@40004400 {
+			compatible = "st,stm32-usart",
+			             "st,stm32-uart";   /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:10 */
+			reg = < 0x40004400 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:11 */
+			clocks = < &rcc 0x9c 0x20000 >; /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:12 */
+			resets = < &rctl 0xe91 >;       /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:13 */
+			interrupts = < 0x3e 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:14 */
+			status = "disabled";            /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:15 */
+		};
+
+		/* node '/soc/gpio@42021400' defined in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:18 */
+		gpiof: gpio@42021400 {
+			compatible = "st,stm32-gpio"; /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:19 */
+			gpio-controller;              /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:20 */
+			#gpio-cells = < 0x2 >;        /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:21 */
+			reg = < 0x42021400 0x400 >;   /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:22 */
+			clocks = < &rcc 0x8c 0x20 >;  /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:23 */
+			phandle = < 0x3d >;           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:893 */
+		};
+
+		/* node '/soc/gpio@42022000' defined in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:26 */
+		gpioi: gpio@42022000 {
+			compatible = "st,stm32-gpio"; /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:27 */
+			gpio-controller;              /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:28 */
+			#gpio-cells = < 0x2 >;        /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:29 */
+			reg = < 0x42022000 0x400 >;   /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:30 */
+			clocks = < &rcc 0x8c 0x100 >; /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:31 */
+			phandle = < 0x58 >;           /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:221 */
+		};
+
+		/* node '/soc/sdmmc@420c8c00' defined in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:34 */
+		sdmmc2: sdmmc@420c8c00 {
+			compatible = "st,stm32-sdmmc";     /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:35 */
+			reg = < 0x420c8c00 0x400 >;        /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:36 */
+			clocks = < &rcc 0x8c 0x10000000 >,
+			         < &rcc 0x6 0x4e00e4 >;    /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:37 */
+			resets = < &rctl 0xc9c >;          /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:39 */
+			interrupts = < 0x4f 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:40 */
+			status = "disabled";               /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:41 */
+		};
+
+		/* node '/soc/memory-controller@420d0400' defined in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:44 */
+		fmc: memory-controller@420d0400 {
+			compatible = "st,stm32-fmc"; /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:45 */
+			reg = < 0x420d0400 0x400 >;  /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:46 */
+			clocks = < &rcc 0x90 0x1 >;  /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:47 */
+			status = "disabled";         /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:48 */
+
+			/* node '/soc/memory-controller@420d0400/sram' defined in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:50 */
+			sram {
+				compatible = "st,stm32-fmc-nor-psram"; /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:51 */
+				#address-cells = < 0x1 >;              /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:52 */
+				#size-cells = < 0x0 >;                 /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:53 */
+				status = "disabled";                   /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:54 */
+			};
+		};
+
+		/* node '/soc/ucpd@4000dc00' defined in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:71 */
+		ucpd1: ucpd@4000dc00 {
+			compatible = "st,stm32-ucpd";    /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:72 */
+			reg = < 0x4000dc00 0x400 >;      /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:73 */
+			clocks = < &rcc 0x9c 0x800000 >; /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:74 */
+			interrupts = < 0x6a 0x0 >;       /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:75 */
+			status = "disabled";             /* in zephyr/dts/arm/st/u5/stm32u5_extra.dtsi:76 */
+		};
+
+		/* node '/soc/otgfs@42040000' defined in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:12 */
+		usbotg_fs: zephyr_udc0: otgfs@42040000 {
+			compatible = "st,stm32-otgfs";                           /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:13 */
+			reg = < 0x42040000 0x80000 >;                            /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:14 */
+			interrupts = < 0x49 0x0 >;                               /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:15 */
+			interrupt-names = "otgfs";                               /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:16 */
+			num-bidir-endpoints = < 0x6 >;                           /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:17 */
+			ram-size = < 0x500 >;                                    /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:18 */
+			maximum-speed = "full-speed";                            /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:19 */
+			clocks = < &rcc 0x8c 0x4000 >,
+			         < &rcc 0x6 0xda00e0 >;                          /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:20 */
+			phys = < &otgfs_phy >;                                   /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:22 */
+			pinctrl-0 = < &usb_otg_fs_dm_pa11 &usb_otg_fs_dp_pa12 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:164 */
+			pinctrl-names = "default";                               /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:165 */
+			status = "disabled";                                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:166 */
+		};
+
+		/* node '/soc/aes@420c0000' defined in zephyr/dts/arm/st/u5/stm32u5_crypt.dtsi:9 */
+		aes: aes@420c0000 {
+			compatible = "st,stm32-aes";    /* in zephyr/dts/arm/st/u5/stm32u5_crypt.dtsi:10 */
+			reg = < 0x420c0000 0x400 >;     /* in zephyr/dts/arm/st/u5/stm32u5_crypt.dtsi:11 */
+			clocks = < &rcc 0x8c 0x10000 >; /* in zephyr/dts/arm/st/u5/stm32u5_crypt.dtsi:12 */
+			resets = < &rctl 0xc90 >;       /* in zephyr/dts/arm/st/u5/stm32u5_crypt.dtsi:13 */
+			interrupts = < 0x5d 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5_crypt.dtsi:14 */
+			status = "okay";                /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:156 */
+		};
+	};
+
+	/* node '/cpus' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:31 */
+	cpus {
+		#address-cells = < 0x1 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:32 */
+		#size-cells = < 0x0 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:33 */
+
+		/* node '/cpus/cpu@0' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:35 */
+		cpu0: cpu@0 {
+			device_type = "cpu";                         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:36 */
+			compatible = "arm,cortex-m33";               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:37 */
+			reg = < 0x0 >;                               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:38 */
+			#address-cells = < 0x1 >;                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:39 */
+			#size-cells = < 0x1 >;                       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:40 */
+			cpu-power-states = < &stop0 &stop1 &stop2 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:41 */
+
+			/* node '/cpus/cpu@0/mpu@e000ed90' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:43 */
+			mpu: mpu@e000ed90 {
+				compatible = "arm,armv8m-mpu"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:44 */
+				reg = < 0xe000ed90 0x40 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:45 */
+			};
+		};
+
+		/* node '/cpus/power-states' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:49 */
+		power-states {
+
+			/* node '/cpus/power-states/state0' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:50 */
+			stop0: state0 {
+				compatible = "zephyr,power-state";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:51 */
+				power-state-name = "suspend-to-idle"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:52 */
+				substate-id = < 0x1 >;                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:53 */
+				min-residency-us = < 0x64 >;          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:54 */
+				phandle = < 0x41 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:41 */
+			};
+
+			/* node '/cpus/power-states/state1' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:56 */
+			stop1: state1 {
+				compatible = "zephyr,power-state";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:57 */
+				power-state-name = "suspend-to-idle"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:58 */
+				substate-id = < 0x2 >;                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:59 */
+				min-residency-us = < 0x1f4 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:60 */
+				phandle = < 0x42 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:41 */
+			};
+
+			/* node '/cpus/power-states/state2' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:62 */
+			stop2: state2 {
+				compatible = "zephyr,power-state";    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:63 */
+				power-state-name = "suspend-to-idle"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:64 */
+				substate-id = < 0x3 >;                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:65 */
+				min-residency-us = < 0x384 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:66 */
+				phandle = < 0x43 >;                   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:41 */
+			};
+		};
+	};
+
+	/* node '/memory@20000000' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:78 */
+	sram0: memory@20000000 {
+		compatible = "mmio-sram";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:79 */
+		reg = < 0x20000000 0xc0000 >; /* in zephyr/dts/arm/st/u5/stm32u575.dtsi:14 */
+	};
+
+	/* node '/clocks' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:82 */
+	clocks {
+
+		/* node '/clocks/clk-hse' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:83 */
+		clk_hse: clk-hse {
+			#clock-cells = < 0x0 >;            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:84 */
+			compatible = "st,stm32-hse-clock"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:85 */
+			clock-frequency = < 0xf42400 >;    /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:62 */
+			status = "okay";                   /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:63 */
+		};
+
+		/* node '/clocks/clk-hsi' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:89 */
+		clk_hsi: clk-hsi {
+			#clock-cells = < 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:90 */
+			compatible = "fixed-clock";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:91 */
+			clock-frequency = < 0xf42400 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:92 */
+			status = "disabled";            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:93 */
+		};
+
+		/* node '/clocks/clk-hsi48' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:96 */
+		clk_hsi48: clk-hsi48 {
+			#clock-cells = < 0x0 >;          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:97 */
+			compatible = "fixed-clock";      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:98 */
+			clock-frequency = < 0x2dc6c00 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:99 */
+			status = "okay";                 /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:58 */
+		};
+
+		/* node '/clocks/clk-msis' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:103 */
+		clk_msis: clk-msis {
+			#clock-cells = < 0x0 >;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:104 */
+			compatible = "st,stm32u5-msi-clock"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:105 */
+			status = "okay";                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:72 */
+			msi-range = < 0x4 >;                 /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:73 */
+			msi-pll-mode;                        /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:74 */
+			phandle = < 0x44 >;                  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:82 */
+		};
+
+		/* node '/clocks/clk-msik' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:110 */
+		clk_msik: clk-msik {
+			#clock-cells = < 0x0 >;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:111 */
+			compatible = "st,stm32u5-msi-clock"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:112 */
+			msi-range = < 0x4 >;                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:113 */
+			status = "disabled";                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:114 */
+		};
+
+		/* node '/clocks/clk-lse' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:117 */
+		clk_lse: clk-lse {
+			#clock-cells = < 0x0 >;            /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:118 */
+			compatible = "st,stm32-lse-clock"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:119 */
+			driving-capability = < 0x2 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:121 */
+			clock-frequency = < 0x8000 >;      /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:67 */
+			status = "okay";                   /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:68 */
+		};
+
+		/* node '/clocks/clk-lsi' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:125 */
+		clk_lsi: clk-lsi {
+			#clock-cells = < 0x0 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:126 */
+			compatible = "fixed-clock";   /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:127 */
+			clock-frequency = < 0x7d00 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:128 */
+			status = "disabled";          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:129 */
+		};
+
+		/* node '/clocks/pll' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:132 */
+		pll1: pll: pll {
+			#clock-cells = < 0x0 >;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:133 */
+			compatible = "st,stm32u5-pll-clock"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:134 */
+			div-m = < 0x1 >;                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:78 */
+			mul-n = < 0x50 >;                    /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:79 */
+			div-q = < 0x2 >;                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:80 */
+			div-r = < 0x2 >;                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:81 */
+			clocks = < &clk_msis >;              /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:82 */
+			status = "okay";                     /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:83 */
+			phandle = < 0x2 >;                   /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:87 */
+		};
+
+		/* node '/clocks/pll2' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:138 */
+		pll2: pll2 {
+			#clock-cells = < 0x0 >;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:139 */
+			compatible = "st,stm32u5-pll-clock"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:140 */
+			status = "disabled";                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:141 */
+		};
+
+		/* node '/clocks/pll3' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:144 */
+		pll3: pll3 {
+			#clock-cells = < 0x0 >;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:145 */
+			compatible = "st,stm32u5-pll-clock"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:146 */
+			status = "disabled";                 /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:147 */
+		};
+	};
+
+	/* node '/mcos' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:151 */
+	mcos {
+
+		/* node '/mcos/mco1' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:152 */
+		mco1: mco1 {
+			compatible = "st,stm32-clock-mco"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:153 */
+			status = "okay";                   /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:40 */
+			clocks = < &rcc 0x6 0x43d8001c >;  /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:41 */
+			prescaler = < 0x11dc001c >;        /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:42 */
+			pinctrl-0 = < &rcc_mco_pa8 >;      /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:43 */
+			pinctrl-names = "default";         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:44 */
+		};
+	};
+
+	/* node '/swj_port' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:901 */
+	swj_port: swj_port {
+		compatible = "swj-connector";                                                                    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:902 */
+		pinctrl-0 = < &debug_jtms_swdio_pa13 &debug_jtck_swclk_pa14 &debug_jtdi_pa15 &debug_jtdo_swo_pb3
+		              &debug_jtrst_pb4 >;                                                                /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:903 */
+		pinctrl-1 = < &analog_pa13 &analog_pa14 &analog_pa15 &analog_pb3 &analog_pb4 >;                  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:906 */
+		pinctrl-names = "default",
+		                "sleep";                                                                         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:908 */
+	};
+
+	/* node '/dietemp' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:911 */
+	die_temp: dietemp {
+		compatible = "st,stm32-temp-cal"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:912 */
+		ts-cal1-addr = < 0xbfa0710 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:913 */
+		ts-cal2-addr = < 0xbfa0742 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:914 */
+		ts-cal1-temp = < 0x1e >;          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:915 */
+		ts-cal2-temp = < 0x82 >;          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:916 */
+		ts-cal-vrefanalog = < 0xbb8 >;    /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:917 */
+		ts-cal-resolution = < 0xe >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:918 */
+		io-channels = < &adc1 0x13 >;     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:919 */
+		status = "okay";                  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:227 */
+	};
+
+	/* node '/vref_1' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:923 */
+	vref1: vref_1 {
+		compatible = "st,stm32-vref";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:924 */
+		vrefint-cal-addr = < 0xbfa07a5 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:925 */
+		vrefint-cal-mv = < 0xbb8 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:926 */
+		vrefint-cal-resolution = < 0xe >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:927 */
+		io-channels = < &adc1 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:928 */
+		status = "okay";                  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:247 */
+	};
+
+	/* node '/vref_4' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:932 */
+	vref4: vref_4 {
+		compatible = "st,stm32-vref";     /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:933 */
+		vrefint-cal-addr = < 0xbfa07a5 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:934 */
+		vrefint-cal-mv = < 0xbb8 >;       /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:935 */
+		vrefint-cal-resolution = < 0xe >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:936 */
+		io-channels = < &adc4 0x0 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:937 */
+		status = "disabled";              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:938 */
+	};
+
+	/* node '/vbat_1' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:941 */
+	vbat1: vbat_1 {
+		compatible = "st,stm32-vbat"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:942 */
+		ratio = < 0x4 >;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:943 */
+		io-channels = < &adc1 0x12 >; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:944 */
+		status = "disabled";          /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:945 */
+	};
+
+	/* node '/vbat_4' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:948 */
+	vbat4: vbat_4 {
+		compatible = "st,stm32-vbat"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:949 */
+		ratio = < 0x4 >;              /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:950 */
+		io-channels = < &adc4 0xe >;  /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:951 */
+		status = "okay";              /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:251 */
+	};
+
+	/* node '/smbus1' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:955 */
+	smbus1: smbus1 {
+		compatible = "st,stm32-smbus"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:956 */
+		#address-cells = < 0x1 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:957 */
+		#size-cells = < 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:958 */
+		i2c = < &i2c1 >;               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:959 */
+		status = "disabled";           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:960 */
+	};
+
+	/* node '/smbus2' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:963 */
+	smbus2: smbus2 {
+		compatible = "st,stm32-smbus"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:964 */
+		#address-cells = < 0x1 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:965 */
+		#size-cells = < 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:966 */
+		i2c = < &i2c2 >;               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:967 */
+		status = "disabled";           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:968 */
+	};
+
+	/* node '/smbus3' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:971 */
+	smbus3: smbus3 {
+		compatible = "st,stm32-smbus"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:972 */
+		#address-cells = < 0x1 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:973 */
+		#size-cells = < 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:974 */
+		i2c = < &i2c3 >;               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:975 */
+		status = "disabled";           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:976 */
+	};
+
+	/* node '/smbus4' defined in zephyr/dts/arm/st/u5/stm32u5.dtsi:979 */
+	smbus4: smbus4 {
+		compatible = "st,stm32-smbus"; /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:980 */
+		#address-cells = < 0x1 >;      /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:981 */
+		#size-cells = < 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:982 */
+		i2c = < &i2c4 >;               /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:983 */
+		status = "disabled";           /* in zephyr/dts/arm/st/u5/stm32u5.dtsi:984 */
+	};
+
+	/* node '/otgfs_phy' defined in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:27 */
+	otgfs_phy: otgfs_phy {
+		compatible = "usb-nop-xceiv"; /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:28 */
+		#phy-cells = < 0x0 >;         /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:29 */
+		phandle = < 0x3e >;           /* in zephyr/dts/arm/st/u5/stm32u5_usbotg_fs.dtsi:22 */
+	};
+
+	/* node '/memory@28000000' defined in zephyr/dts/arm/st/u5/stm32u575.dtsi:17 */
+	sram1: memory@28000000 {
+		reg = < 0x28000000 0x4000 >; /* in zephyr/dts/arm/st/u5/stm32u575.dtsi:19 */
+	};
+
+	/* node '/connector' defined in zephyr/boards/arduino/uno_q/arduino_r3_connector.dtsi:8 */
+	arduino_header: connector {
+		compatible = "arduino-header-r3";          /* in zephyr/boards/arduino/uno_q/arduino_r3_connector.dtsi:9 */
+		#gpio-cells = < 0x2 >;                     /* in zephyr/boards/arduino/uno_q/arduino_r3_connector.dtsi:10 */
+		gpio-map-mask = < 0xffffffff 0xffffffc0 >; /* in zephyr/boards/arduino/uno_q/arduino_r3_connector.dtsi:11 */
+		gpio-map-pass-thru = < 0x0 0x3f >;         /* in zephyr/boards/arduino/uno_q/arduino_r3_connector.dtsi:12 */
+		gpio-map = < 0x0 0x0 &gpioa 0x4 0x0 >,
+		           < 0x1 0x0 &gpioa 0x5 0x0 >,
+		           < 0x2 0x0 &gpioa 0x6 0x0 >,
+		           < 0x3 0x0 &gpioa 0x7 0x0 >,
+		           < 0x4 0x0 &gpioc 0x1 0x0 >,
+		           < 0x5 0x0 &gpioc 0x0 0x0 >,
+		           < 0x6 0x0 &gpiob 0x7 0x0 >,
+		           < 0x7 0x0 &gpiob 0x6 0x0 >,
+		           < 0x8 0x0 &gpiob 0x3 0x0 >,
+		           < 0x9 0x0 &gpiob 0x0 0x0 >,
+		           < 0xa 0x0 &gpioa 0xc 0x0 >,
+		           < 0xb 0x0 &gpioa 0xb 0x0 >,
+		           < 0xc 0x0 &gpiob 0x1 0x0 >,
+		           < 0xd 0x0 &gpiob 0x2 0x0 >,
+		           < 0xe 0x0 &gpiob 0x4 0x0 >,
+		           < 0xf 0x0 &gpiob 0x8 0x0 >,
+		           < 0x10 0x0 &gpiob 0x9 0x0 >,
+		           < 0x11 0x0 &gpiob 0xf 0x0 >,
+		           < 0x12 0x0 &gpiob 0xe 0x0 >,
+		           < 0x13 0x0 &gpiob 0xd 0x0 >;    /* in zephyr/boards/arduino/uno_q/arduino_r3_connector.dtsi:13 */
+	};
+
+	/* node '/leds' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:15 */
+	leds {
+		compatible = "gpio-leds"; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:16 */
+
+		/* node '/leds/led3_red' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:18 */
+		led3_red: led3_red {
+			gpios = < &gpioh 0xa 0x1 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:19 */
+			label = "RGB LED 3 Red";    /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:20 */
+		};
+
+		/* node '/leds/led3_green' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:23 */
+		led3_green: led3_green {
+			gpios = < &gpioh 0xb 0x1 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:24 */
+			label = "RGB LED 3 Green";  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:25 */
+		};
+
+		/* node '/leds/led3_blue' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:28 */
+		led3_blue: led3_blue {
+			gpios = < &gpioh 0xc 0x1 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:29 */
+			label = "RGB LED 3 Blue";   /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:30 */
+		};
+
+		/* node '/leds/led4_red' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:33 */
+		led4_red: led4_red {
+			gpios = < &gpioh 0xd 0x1 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:34 */
+			label = "RGB LED 4 Red";    /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:35 */
+		};
+
+		/* node '/leds/led4_green' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:38 */
+		led4_green: led4_green {
+			gpios = < &gpioh 0xe 0x1 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:39 */
+			label = "RGB LED 4 Green";  /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:40 */
+		};
+
+		/* node '/leds/led4_blue' defined in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:43 */
+		led4_blue: led4_blue {
+			gpios = < &gpioh 0xf 0x1 >; /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:44 */
+			label = "RGB LED 4 Blue";   /* in zephyr/boards/arduino/uno_q/arduino_uno_q-common.dtsi:45 */
+		};
+	};
+
+	/* node '/zephyr,user' defined in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:220 */
+	zephyr,user {
+		digital-pin-gpios = < &gpiob 0x7 0x0 >,
+		                    < &gpiob 0x6 0x0 >,
+		                    < &gpiob 0x3 0x0 >,
+		                    < &gpiob 0x0 0x0 >,
+		                    < &gpioa 0xc 0x0 >,
+		                    < &gpioa 0xb 0x0 >,
+		                    < &gpiob 0x1 0x0 >,
+		                    < &gpiob 0x2 0x0 >,
+		                    < &gpiob 0x4 0x0 >,
+		                    < &gpiob 0x8 0x0 >,
+		                    < &gpiob 0x9 0x0 >,
+		                    < &gpiob 0xf 0x0 >,
+		                    < &gpiob 0xe 0x0 >,
+		                    < &gpiob 0xd 0x0 >,
+		                    < &gpioa 0x4 0x0 >,
+		                    < &gpioa 0x5 0x0 >,
+		                    < &gpioa 0x6 0x0 >,
+		                    < &gpioa 0x7 0x0 >,
+		                    < &gpioc 0x1 0x0 >,
+		                    < &gpioc 0x0 0x0 >,
+		                    < &gpiob 0xb 0x0 >,
+		                    < &gpiob 0xa 0x0 >,
+		                    < &gpioc 0x2 0x0 >,
+		                    < &gpioc 0x3 0x0 >,
+		                    < &gpiod 0x1 0x0 >,
+		                    < &gpioc 0x6 0x0 >,
+		                    < &gpiod 0x2 0x0 >,
+		                    < &gpioc 0x7 0x0 >,
+		                    < &gpioe 0x2 0x0 >,
+		                    < &gpioc 0x8 0x0 >,
+		                    < &gpioe 0x3 0x0 >,
+		                    < &gpioc 0x9 0x0 >,
+		                    < &gpioe 0x5 0x0 >,
+		                    < &gpioe 0x4 0x0 >,
+		                    < &gpioe 0x6 0x0 >,
+		                    < &gpioi 0x4 0x0 >,
+		                    < &gpioe 0x7 0x0 >,
+		                    < &gpioi 0x6 0x0 >,
+		                    < &gpioe 0x8 0x0 >,
+		                    < &gpioi 0x7 0x0 >,
+		                    < &gpiof 0xe 0x0 >,
+		                    < &gpiod 0x9 0x0 >,
+		                    < &gpiof 0xf 0x0 >,
+		                    < &gpioi 0x5 0x0 >,
+		                    < &gpioa 0x3 0x0 >,
+		                    < &gpiod 0x8 0x0 >,
+		                    < &gpioa 0x0 0x0 >,
+		                    < &gpioa 0x8 0x0 >,
+		                    < &gpioa 0x1 0x0 >,
+		                    < &gpioa 0xa 0x0 >,
+		                    < &gpioh 0xa 0x0 >,
+		                    < &gpioh 0xb 0x0 >,
+		                    < &gpioh 0xc 0x0 >,
+		                    < &gpioh 0xd 0x0 >,
+		                    < &gpioh 0xe 0x0 >,
+		                    < &gpioh 0xf 0x0 >,
+		                    < &gpiof 0x0 0x0 >,
+		                    < &gpiof 0x1 0x0 >,
+		                    < &gpiof 0x2 0x0 >,
+		                    < &gpiof 0x3 0x0 >,
+		                    < &gpiof 0x4 0x0 >,
+		                    < &gpiof 0x5 0x0 >,
+		                    < &gpiof 0x6 0x0 >,
+		                    < &gpiof 0x7 0x0 >,
+		                    < &gpiof 0x8 0x0 >,
+		                    < &gpiof 0x9 0x0 >,
+		                    < &gpiof 0xa 0x0 >,
+		                    < &gpiog 0xd 0x0 >,
+		                    < &gpioa 0x2 0x0 >,
+		                    < &gpioh 0x3 0x0 >;   /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:221 */
+		builtin-led-gpios = < &gpioh 0xa 0x0 >,
+		                    < &gpioh 0xb 0x0 >,
+		                    < &gpioh 0xc 0x0 >,
+		                    < &gpioh 0xd 0x0 >,
+		                    < &gpioh 0xe 0x0 >,
+		                    < &gpioh 0xf 0x0 >;   /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:299 */
+		pwm-pin-gpios = < &gpiob 0x3 0x0 >,
+		                < &gpiob 0x0 0x0 >,
+		                < &gpioa 0xb 0x0 >,
+		                < &gpiob 0x1 0x0 >,
+		                < &gpiob 0x2 0x0 >,
+		                < &gpiob 0x4 0x0 >,
+		                < &gpiob 0x8 0x0 >,
+		                < &gpiob 0x9 0x0 >,
+		                < &gpiob 0xf 0x0 >,
+		                < &gpiob 0xe 0x0 >,
+		                < &gpiob 0xd 0x0 >,
+		                < &gpiob 0xb 0x0 >,
+		                < &gpiob 0xa 0x0 >,
+		                < &gpioh 0xa 0x0 >,
+		                < &gpioh 0xb 0x0 >,
+		                < &gpioh 0xc 0x0 >;       /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:308 */
+		adc-pin-gpios = < &gpioa 0x4 0x0 >,
+		                < &gpioa 0x5 0x0 >,
+		                < &gpioa 0x6 0x0 >,
+		                < &gpioa 0x7 0x0 >,
+		                < &gpioc 0x1 0x0 >,
+		                < &gpioc 0x0 0x0 >;       /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:328 */
+		arduino,router-serial = < &lpuart1 >;     /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:335 */
+		serials = < &usart1 >,
+		          < &lpuart1 >;                   /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:336 */
+		cans = < &fdcan1 >;                       /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:337 */
+		i2cs = < &i2c2 >,
+		       < &i2c4 >,
+		       < &i2c3 >;                         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:338 */
+		spis = < &spi2 >,
+		       < &spi3 >;                         /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:339 */
+		pwms = < &pwm2 0x2 0x1e8480 0x0 >,
+		       < &pwm3 0x3 0x1e8480 0x0 >,
+		       < &pwm1 0x4 0x1e8480 0x0 >,
+		       < &pwm3 0x4 0x1e8480 0x0 >,
+		       < &pwm8 0x4 0x1e8480 0x100 >,
+		       < &pwm3 0x1 0x1e8480 0x0 >,
+		       < &pwm4 0x3 0x1e8480 0x0 >,
+		       < &pwm4 0x4 0x1e8480 0x0 >,
+		       < &pwm1 0x3 0x1e8480 0x100 >,
+		       < &pwm1 0x2 0x1e8480 0x100 >,
+		       < &pwm1 0x1 0x1e8480 0x100 >,
+		       < &pwm2 0x4 0x1e8480 0x0 >,
+		       < &pwm2 0x3 0x1e8480 0x0 >,
+		       < &pwm5 0x1 0x1e8480 0x1 >,
+		       < &pwm5 0x2 0x1e8480 0x1 >,
+		       < &pwm5 0x3 0x1e8480 0x1 >;        /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:342 */
+		control-gpios = < &gpiog 0xd 0x0 >;       /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:362 */
+		analog-switch-gpios = < &gpioa 0x2 0x0 >; /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:363 */
+		io-channels = < &adc1 0x9 >,
+		              < &adc1 0xa >,
+		              < &adc1 0xb >,
+		              < &adc1 0xc >,
+		              < &adc1 0x2 >,
+		              < &adc1 0x1 >;              /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:365 */
+		dac-pin-gpios = < &gpioa 0x4 0x0 >,
+		                < &gpioa 0x5 0x0 >;       /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:372 */
+		dac = < &dac1 >;                          /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:375 */
+		dac-channels = < 0x1 >,
+		               < 0x2 >;                   /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:376 */
+		dac-resolution = < 0xc >;                 /* in ArduinoCore-zephyr/variants/arduino_uno_q_stm32u585xx/arduino_uno_q_stm32u585xx.overlay:377 */
+	};
+};

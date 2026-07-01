@@ -1,0 +1,14 @@
+[project]
+name = "gamepad-test"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "arduino-app-bricks",
+    "inputs>=0.5",
+    "numpy>=2.4.3",
+    "pygame>=2.6.1",
+    "watchdog>=6.0.0",
+]
+
+[tool.uv.sources]
+arduino-app-bricks = { url = "https://github.com/arduino/app-bricks-py/releases/download/release%2F0.8.0/arduino_app_bricks-0.8.0-py3-none-any.whl" }

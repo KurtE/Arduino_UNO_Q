@@ -1,0 +1,6 @@
+name: CustomBrickHelloWorldApp
+description: ""
+ports: []
+bricks:
+- hello: {}
+icon: 😀

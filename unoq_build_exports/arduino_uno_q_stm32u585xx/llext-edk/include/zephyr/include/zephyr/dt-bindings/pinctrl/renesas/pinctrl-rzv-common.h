@@ -1,0 +1,139 @@
+/*
+ * Copyright (c) 2025 Renesas Electronics Corporation
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#ifndef ZEPHYR_INCLUDE_DT_BINDINGS_PINCTRL_RENESAS_PINCTRL_RZV_COMMON_H_
+#define ZEPHYR_INCLUDE_DT_BINDINGS_PINCTRL_RENESAS_PINCTRL_RZV_COMMON_H_
+
+/* Superset list of all possible IO ports. */
+#define PORT_00 0x0000
+#define PORT_01 0x0100
+#define PORT_02 0x0200
+#define PORT_03 0x0300
+#define PORT_04 0x0400
+#define PORT_05 0x0500
+#define PORT_06 0x0600
+#define PORT_07 0x0700
+#define PORT_08 0x0800
+#define PORT_09 0x0900
+#define PORT_10 0x0A00
+#define PORT_11 0x0B00
+#define PORT_12 0x0C00
+#define PORT_13 0x0D00
+#define PORT_14 0x0E00
+#define PORT_15 0x0F00
+#define PORT_16 0x1000
+#define PORT_17 0x1100
+#define PORT_18 0x1200
+#define PORT_19 0x1300
+#define PORT_20 0x1400
+#define PORT_21 0x1500
+#define PORT_22 0x1600
+#define PORT_23 0x1700
+#define PORT_24 0x1800
+#define PORT_25 0x1900
+#define PORT_26 0x1A00
+#define PORT_27 0x1B00
+#define PORT_28 0x1C00
+#define PORT_29 0x1D00
+#define PORT_30 0x1E00
+#define PORT_31 0x1F00
+#define PORT_32 0x2000
+#define PORT_33 0x2100
+#define PORT_34 0x2200
+#define PORT_35 0x2300
+#define PORT_36 0x2400
+#define PORT_37 0x2500
+#define PORT_38 0x2600
+#define PORT_39 0x2700
+#define PORT_40 0x2800
+#define PORT_41 0x2900
+#define PORT_42 0x2A00
+#define PORT_43 0x2B00
+#define PORT_44 0x2C00
+#define PORT_45 0x2D00
+#define PORT_46 0x2E00
+#define PORT_47 0x2F00
+#define PORT_48 0x3000
+
+/*
+ * Create the value contain port/pin/function information
+ *
+ * port: port number BSP_IO_PORT_00..BSP_IO_PORT_48
+ * pin: pin number
+ * func: pin function
+ */
+#define RZV_PINMUX(port, pin, func) (port | pin | (func << 4))
+
+/* Special purpose port */
+#define BSP_IO_NMI 0xFFFF0100
+
+#define BSP_IO_TMS_SWDIO 0xFFFF0200
+
+#define BSP_IO_TDO 0xFFFF0300
+
+#define BSP_IO_AUDIO_CLK1 0xFFFF0400
+#define BSP_IO_AUDIO_CLK2 0xFFFF0401
+
+#define BSP_IO_SD0_CLK   0xFFFF0600
+#define BSP_IO_SD0_CMD   0xFFFF0601
+#define BSP_IO_SD0_RST_N 0xFFFF0602
+
+#define BSP_IO_SD0_DATA0 0xFFFF0700
+#define BSP_IO_SD0_DATA1 0xFFFF0701
+#define BSP_IO_SD0_DATA2 0xFFFF0702
+#define BSP_IO_SD0_DATA3 0xFFFF0703
+#define BSP_IO_SD0_DATA4 0xFFFF0704
+#define BSP_IO_SD0_DATA5 0xFFFF0705
+#define BSP_IO_SD0_DATA6 0xFFFF0706
+#define BSP_IO_SD0_DATA7 0xFFFF0707
+
+#define BSP_IO_SD1_CLK 0xFFFF0800
+#define BSP_IO_SD1_CMD 0xFFFF0801
+
+#define BSP_IO_SD1_DATA0 0xFFFF0900
+#define BSP_IO_SD1_DATA1 0xFFFF0901
+#define BSP_IO_SD1_DATA2 0xFFFF0902
+#define BSP_IO_SD1_DATA3 0xFFFF0903
+
+#define BSP_IO_QSPI0_SPCLK 0xFFFF0A00
+#define BSP_IO_QSPI0_IO0   0xFFFF0A01
+#define BSP_IO_QSPI0_IO1   0xFFFF0A02
+#define BSP_IO_QSPI0_IO2   0xFFFF0A03
+#define BSP_IO_QSPI0_IO3   0xFFFF0A04
+#define BSP_IO_QSPI0_SSL   0xFFFF0A05
+
+#define BSP_IO_QSPI1_SPCLK 0xFFFF0B00
+#define BSP_IO_QSPI1_IO0   0xFFFF0B01
+#define BSP_IO_QSPI1_IO1   0xFFFF0B02
+#define BSP_IO_QSPI1_IO2   0xFFFF0B03
+#define BSP_IO_QSPI1_IO3   0xFFFF0B04
+#define BSP_IO_QSPI1_SSL   0xFFFF0B05
+
+#define BSP_IO_QSPI_RESET_N 0xFFFF0C00
+#define BSP_IO_QSPI_WP_N    0xFFFF0C01
+#define BSP_IO_QSPI_INT_N   0xFFFF0C02
+
+#define BSP_IO_WDTOVF_PERROUT_N 0xFFFF0D00
+
+#define BSP_IO_RIIC0_SDA 0xFFFF0E00
+#define BSP_IO_RIIC0_SCL 0xFFFF0E01
+#define BSP_IO_RIIC1_SDA 0xFFFF0E02
+#define BSP_IO_RIIC1_SCL 0xFFFF0E03
+
+/* FILNUM */
+#define RZV_FILNUM_4_STAGE  0
+#define RZV_FILNUM_8_STAGE  1
+#define RZV_FILNUM_12_STAGE 2
+#define RZV_FILNUM_16_STAGE 3
+
+/* FILCLKSEL */
+#define RZV_FILCLKSEL_NOT_DIV   0
+#define RZV_FILCLKSEL_DIV_9000  1
+#define RZV_FILCLKSEL_DIV_18000 2
+#define RZV_FILCLKSEL_DIV_36000 3
+
+#define RZV_FILTER_SET(filnum, filclksel) (((filnum) & 0x3) << 0x2) | (filclksel & 0x3)
+
+#endif /* ZEPHYR_INCLUDE_DT_BINDINGS_PINCTRL_RENESAS_PINCTRL_RZV_COMMON_H_ */

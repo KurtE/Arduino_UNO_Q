@@ -31,7 +31,7 @@ def loop():
         event_processed = True
         if event.type == pygame.JOYAXISMOTION :
             axis_motion_list.append(event.axis)
-            axis_motion_list.append(int(event.value * 32767))
+            axis_motion_list.append(int(event.value * 1023))
             #axis_motions[event.axis] = event.value
             if event.axis == 0 :
                 print("Left stick X: {}".format(event.value))
