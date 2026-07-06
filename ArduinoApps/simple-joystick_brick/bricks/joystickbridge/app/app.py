@@ -51,20 +51,5 @@ def js_buttons():
 def js_state():
     return jsonify(js.get_state())
 
-@app.route("/joystick/spidev_output")
-def js_enable_spidev_output():
-    # Get the query parameter as string
-    flag_str = request.args.get("enable", "").lower()
-
-    # Convert to boolean
-    if flag_str in ["true", "1", "yes"]:
-        enable = True
-    elif flag_str in ["false", "0", "no"]:    
-        enable = False
-    else:
-        enable = None
-
-    return jsonify(js.spidev_output(enable))
-
 if __name__ == "__main__":
     app.run(debug=True)

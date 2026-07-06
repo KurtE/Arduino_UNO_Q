@@ -4,7 +4,6 @@ import os
 import struct
 import fcntl
 import threading
-import spidev
 import time
 
 JSIOCGNAME = 0x80006a13
@@ -21,21 +20,18 @@ class Joystick:
 
         self.axis_map = []
         self.button_map = []
-        self.axis_states = {}
-        self.button_states = {}
+        self.axis_states = []
+        self.button_states = []
 
-        self.axis_changed = False
-        self.buttons_changed = False
+        self.axis_changed = 0
+        self.buttons_changed = 0
 
         self.num_axes = 0
         self.num_buttons = 0
 
         self.running = False
         self.joystick_connected = False
-        self.output_to_spidev = True
         self.lock = threading.Lock()
-
-        self.spi = None
 
 
     # ----------------------------------------------------
@@ -56,12 +52,12 @@ class Joystick:
         buf = bytearray(1)
         fcntl.ioctl(self.fd, JSIOCGAXES, buf)
         self.num_axes = buf[0]
-
+        self.axis_states = [0] * self.num_axes
         # Buttons
         buf = bytearray(1)
         fcntl.ioctl(self.fd, JSIOCGBUTTONS, buf)
         self.num_buttons = buf[0]
-
+        self.button_states = [0] * self.num_buttons
         # Axis map
         buf = bytearray(0x40)
         fcntl.ioctl(self.fd, JSIOCGAXMAP, buf)
@@ -80,19 +76,11 @@ class Joystick:
             print("BUF:", buf, "Num Btns:", self.num_buttons)
 
         # Initialize states
-        with self.lock:
-            for a in self.axis_map:
-                self.axis_states[a] = 0
-            for b in self.button_map:
-                self.button_states[b] = 0
-
-        # open SPIDEV
-        spi = spidev.SpiDev()
-        spi.open(0, 0)
-        spi.max_speed_hz = 5000000
-        spi.mode = 0
-        spi.bits_per_word = 8
-        self.spi = spi
+        #with self.lock:
+        #    for a in self.axis_map:
+        #        self.axis_states[a] = 0
+        #    for b in self.button_map:
+        #        self.button_states[b] = 0
 
     # ----------------------------------------------------
     # detect if joystick is attached.
@@ -111,8 +99,8 @@ class Joystick:
                 print("Not Connected: ", self.device)
                 
                 while True: 
-                    if os.path.exists(self.device) == True:
-                        break;
+                    if os.path.exists(self.device):
+                        break
                     time.sleep(0.25)
                     
                 self.open()
@@ -127,27 +115,22 @@ class Joystick:
                 etime, value, etype, number = struct.unpack("IhBB", ev)
                 etype &= 0x7F  # strip init flag
                 with self.lock:
-                    # optionally output to spidev
-                    if self.output_to_spidev:
-                        self.spi.xfer2(ev)
-
                     if etype == 0x01:  # button
                         if number < len(self.button_map):
-                            btn = self.button_map[number]
-                            self.button_states[btn] = 1 if value else 0
-                            if self.buttons_changed == False:
-                                self.buttons_changed = btn
-                            elif self.buttons_changed != btn:
-                                self.buttons_changed = True
+                            #btn = self.button_map[number]
+                            #self.button_states[btn] = 1 if value else 0
+                            self.button_states[number] = value
+                            self.buttons_changed = self.buttons_changed | (1 << number)
+                            print("btn: ", number, value, hex(self.buttons_changed))
                     
                     elif etype == 0x02:  # axis
                         if number < len(self.axis_map):
-                            axis = self.axis_map[number]
-                            self.axis_states[axis] = value
-                            if self.axis_changed == False:
-                                self.axis_changed = axis
-                            elif self.axis_changed != axis:
-                                self.axis_changed = True
+                            #axis = self.axis_map[number]
+                            #self.axis_states[axis] = value
+                            self.axis_states[number] = value
+                            self.axis_changed = self.axis_changed | (1 << number)
+                            print("axis: ", number, value, hex(self.axis_changed))
+
                             
             except Exception as e:
                 print("An error occurred:", str(e))
@@ -176,27 +159,21 @@ class Joystick:
 
     def get_axis_values(self):
         with self.lock:
-            return dict(self.axis_states)
+            return list(self.axis_states)
 
     def get_button_values(self):
         with self.lock:
-            return dict(self.button_states)
+            return list(self.button_states)
 
     def get_state(self):
         with self.lock:
             ret = {
                 "axes_changed": self.axis_changed,
-                "axes": dict(self.axis_states),
+                "axes": list(self.axis_states),
                 "buttons_changed": self.buttons_changed,
-                "buttons": dict(self.button_states),
+                "buttons": list(self.button_states),
             }
-            self.axis_changed = False
-            self.buttons_changed = False
+            self.axis_changed = 0
+            self.buttons_changed = 0
             return ret;
-
-    def spidev_output(self, enable):
-        print("spidev_output:", enable)
-        if enable != None:
-            self.output_to_spidev = enable
-        return self.output_to_spidev
         

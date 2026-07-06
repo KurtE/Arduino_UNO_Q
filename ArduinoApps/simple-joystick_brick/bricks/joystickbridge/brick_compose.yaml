@@ -23,13 +23,13 @@ services:
     group_add:
       - "995"
 
-    # Map the UNO Q SPI hardware line into the container
+    # devices we need dev/input to get /dev/input/js0 and /dev/udev and run/udev for detecting after we start
     devices:
       - "/dev/input:/dev/input"
-      - "/dev/spidev0.0:/dev/spidev0.0"
       - "/dev/udev:/dev/udev"
       - "/run/udev:/run/udev"
 
+    # we need the /dev and the /run/udev to detect when things change udev rules...
     volumes:
       - "/dev:/dev"
       - "/run/udev:/run/udev:ro"

@@ -9,7 +9,7 @@ print(">> Waiting for Joystick")
 joystick_connected = False
 joystick_name = None
 num_axes = 0
-num_buttons = 0
+num_button = 0
 axis_map = None
 button_map = None
 debug_output = True
@@ -65,7 +65,7 @@ def low_bit_order(n):
 
 
 def loop():
-    global joystick_connected, name, num_axes, num_buttons, axis_map, button_map
+    global joystick_connected, name, num_axes, num_button, axis_map, button_map
 
     if not joystick_connected:
             
@@ -73,7 +73,7 @@ def loop():
             connected = joystick.getConnected()
             is_connected = connected['connected']
             print ("Connected: ", is_connected, type(is_connected))
-            if not is_connected:
+            if is_connected == False:
                 print(".")
                 time.sleep(2.5)
                 return
@@ -134,9 +134,6 @@ def loop():
                 while buttons_changed:
                     lowest_bit_set = low_bit_order(buttons_changed)
                     button_index = button_index + lowest_bit_set
-                    if button_index >= num_buttons: # on chance that our >> sign extends
-                        break
-                        
                     if debug_output:
                         print(" BTN: ", button_index, end="")
                     if (button_map):
@@ -148,7 +145,7 @@ def loop():
                         if debug_output:
                             print(" Pressed", end="")
                         Bridge.notify("joy_button_down", btn)
-                            
+
                     else:
                         Bridge.notify("joy_button_up", btn)
                         if debug_output:
@@ -170,9 +167,6 @@ def loop():
                 while axes_changed:
                     lowest_bit_set = low_bit_order(axes_changed)
                     axis_index = axis_index + lowest_bit_set
-                    if axis_index >= num_axes:
-                        break
-                        
                     if debug_output:
                         print(" AXIS: ", axis_index, end="")
                     if (axis_map):

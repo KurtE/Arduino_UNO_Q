@@ -1,3 +1,3 @@
-#  Simplified Joystick test, JS0 directly to SPIDEV
+#  Simplified Joystick test - Uses a custom brick for joystick events.
 
-See: https://forum.arduino.cc/t/getting-a-neato-xv-11-lidar-working-on-the-q/1445568
+See: https://forum.arduino.cc/t/anyone-had-luck-reading-from-a-gamepad/1436918

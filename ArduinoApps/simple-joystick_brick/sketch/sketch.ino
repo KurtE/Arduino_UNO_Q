@@ -1,57 +1,62 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
+#include <vector>
 
 #include "Arduino_RouterBridge.h"
 
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/init.h>
-#include <zephyr/drivers/spi.h>
+#include "memorySerial.h"
 
 
-// Joystick event format:
-typedef struct js_event {
-     uint32_t time;     // event timestamp in milliseconds
-     int16_t  value;    // value
-     uint8_t  type;     // event type
-     uint8_t  number;   // axis/button number
- } js_event_t;
+memorySerial MSerial;
 
-// Event type bit flags
-#define JS_EVENT_BUTTON  0x01
-#define JS_EVENT_AXIS    0x02
-#define JS_EVENT_INIT    0x80
-
-#define SPI_PERIPHERAL_NODE DT_COMPAT_GET_ANY_STATUS_OKAY(zephyr_spi_slave)
-
-#define SPI_MAX_MESSAGE 8
 
 uint32_t last_led_change_time_ms = 0;
 
-const struct device *const spi_peripheral = DEVICE_DT_GET(DT_BUS(SPI_PERIPHERAL_NODE));
-struct spi_config spi_cfg;
-
-uint8_t rxmsg[SPI_MAX_MESSAGE] __attribute__((aligned(8)));
-struct spi_buf rx;
-struct spi_buf_set rx_bufs;
-
-uint8_t txmsg[SPI_MAX_MESSAGE] __attribute__((aligned(8))) = { 0 };
-struct spi_buf tx;
-struct spi_buf_set tx_bufs;
-
-volatile bool spi_data_available = false;
-int spi_callback_ret = -1;
-
-#if 0
-void spi_callback(const struct device *dev, int result, void *data) {
-  spi_data_available = true;
-  spi_callback_ret = result;
-}
-#endif
-
 #define STACK_SIZE 1024
 #define PRIORITY 7
+
+typedef struct {
+  uint16_t    value;
+  const char  *name;  
+} value_to_name_t;
+
+static const value_to_name_t axis_names[] = {
+    {0, "lx"},
+    {1, "ly"},
+    {2, "rx"},
+    {5, "ry"},
+    {3, "L2"},
+    {4, "R2"},
+    {9, "R2/Rt"},
+    {10, "L2/Lt"},
+    {16, "dpad_x"},
+    {17, "dpad_y"}
+};
+
+static const value_to_name_t button_names[] = {
+    {305, "cross/B"},
+    {306, "circle"},
+    {307, "triangle/X"},
+    {304, "square/A"},
+    {308, "l1/Y"},
+    {309, "r1/rs"},
+    {310, "l2/ls"},
+    {311, "r2_btn"},
+    {312, "share"},
+    {313, "options"},
+    {316, "ps/XB"},
+    {314, "l3/view"},
+    {315, "r3/options"},
+    {317, "touchpad/Stl Lt Bth"},
+    {318, "Stick Rt Btn"},
+    {158, "share"},
+    {172, "guide"}
+};
+
 
 K_THREAD_STACK_DEFINE(thread1_stack, STACK_SIZE);
 struct k_thread thread1_data;
@@ -62,42 +67,18 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   Bridge.begin();
   Serial.begin(115200);
-  //  while (!Serial && millis() < 5000) {}
+  while (!Serial && millis() < 5000) {}
   delay(5000);
   Serial.println("\n*** Joystick test program starting ***");
   Serial.flush();
 
-  // initialize the SPI
-  spi_cfg.frequency = 5000000;
-  spi_cfg.operation = SPI_WORD_SET(8) | SPI_OP_MODE_SLAVE;
-  rx.buf = rxmsg;
-  rx.len = SPI_MAX_MESSAGE;
-  rx_bufs.buffers = &rx;
-  rx_bufs.count = 1;
-  tx.buf = txmsg;
-  tx.len = SPI_MAX_MESSAGE;
-  tx_bufs.buffers = &tx;
-  tx_bufs.count = 1;
-  Serial.print("SPI: ");
-  Serial.println((uint32_t)spi_peripheral, HEX);
-  Serial.flush();
-  int ret = device_init(spi_peripheral);
-  Serial.println("After device_init");
-
-
-  if (ret < 0) {
-    delay(2000);
-    Serial.print("SPI Peripheral init failed: ");
-    Serial.println(ret);
-  }
-
-  Serial.println("Before spi_transceive_cb");
-  Serial.flush();
-
-  //  spi_transceive_cb(spi_peripheral, &spi_cfg, &tx_bufs, &rx_bufs, &spi_callback, nullptr);
-  thread1_tid = k_thread_create(&thread1_data, thread1_stack, K_THREAD_STACK_SIZEOF(thread1_stack),
-    spidev_thread, NULL, NULL, NULL, PRIORITY, 0, K_NO_WAIT);
-
+  Bridge.provide("joy_button_down", joy_button_down);
+  Bridge.provide("joy_button_up", joy_button_up);
+  Bridge.provide("joy_axis_motion", joy_axis_motion);
+  //Bridge.provide("joy_hat_motion", joy_hat_motion);
+  //Bridge.provide("joy_device_added", joy_device_added);
+  //Bridge.provide("joy_device_removed", joy_device_removed);
+  MSerial.begin();
 }
 
 
@@ -106,40 +87,67 @@ void loop() {
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     last_led_change_time_ms = millis();
   }
+  uint8_t buffer[80];
+  int cbRead;
+  while ((cbRead = MSerial.read(buffer, sizeof(buffer))) > 0) {
+    Serial.write(buffer, cbRead);
+  }
   delay(25);
 }
 
-void spidev_thread(void *p1, void *p2, void *p3)
-{
-    while (1) {
 
-      if (spi_transceive(spi_peripheral, &spi_cfg, &tx_bufs, &rx_bufs) >= 0) {
-        js_event_t jevent;
-        jevent.time = *((uint32_t *)rxmsg);
-        jevent.value = *((int16_t *)(&rxmsg[4]));
-        jevent.type = rxmsg[6];
-        jevent.number = rxmsg[7];
+const char *map_button_to_name(int btn) {
+  for(int i = 0; i < sizeof(button_names)/sizeof(button_names[0]); i++) {
+    if (button_names[i].value == btn) return button_names[i].name;   
+  }
+  return nullptr;
+}
 
-        switch (jevent.type) {
-          case JS_EVENT_BUTTON:
-            Serial.print("T: ");
-            Serial.print(jevent.time);
-            Serial.print(" Button: ");
-            Serial.print(jevent.number);
-            Serial.println(jevent.value? " Pressed" : " Released");
-            break;
-          case JS_EVENT_AXIS:
-            Serial.print("T: ");
-            Serial.print(jevent.time);
-            Serial.print(" Axis: ");
-            Serial.print(jevent.number);
-            Serial.print(" value: ");
-            Serial.println(jevent.value);
-            break;
-        }
-    
-        //spi_transceive_cb(spi_peripheral, &spi_cfg, &tx_bufs, &rx_bufs, &spi_callback, nullptr);
-      }
-      k_sleep(K_MSEC(1));
+void joy_button_down(int btn) {
+  MSerial.print("BDN: ");
+  MSerial.print(btn);
+  const char *btn_name = map_button_to_name(btn);
+  if (btn_name != nullptr) {
+    MSerial.print(" (");
+    MSerial.print(btn_name);
+    MSerial.print(")");
+  }
+  MSerial.println();
+}
+
+void joy_button_up(int btn) {
+  MSerial.print("BUP: ");
+  MSerial.print(btn);
+  const char *btn_name = map_button_to_name(btn);
+  if (btn_name != nullptr) {
+    MSerial.print(" (");
+    MSerial.print(btn_name);
+    MSerial.print(")");
+  }
+  MSerial.println();
+}
+
+const char *map_axis_to_name(int axis) {
+  for(int i = 0; i < sizeof(axis_names)/sizeof(axis_names[0]); i++) {
+    if (axis_names[i].value == axis) return axis_names[i].name;   
+  }
+  return nullptr;
+}
+
+void joy_axis_motion(std::vector<int> motions) {
+  MSerial.print("Axis:");
+  for (int i = 0; i < motions.size(); i += 2) {
+    if ((i & 7) == 4) MSerial.println();
+    MSerial.print(" ");
+    MSerial.print(motions[i]);
+    const char * axis_name = map_axis_to_name(motions[i]);
+    if (axis_name != nullptr) {
+      MSerial.print(" (");
+      MSerial.print(axis_name);
+      MSerial.print(")");
     }
+    MSerial.print(":");
+    MSerial.print(motions[i + 1]);
+  }
+  MSerial.println();
 }

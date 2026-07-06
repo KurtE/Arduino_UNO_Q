@@ -1,0 +1,6 @@
+name: burger simple joystick
+description: ""
+ports: []
+bricks:
+- joystickbridge: {}
+icon: 😀

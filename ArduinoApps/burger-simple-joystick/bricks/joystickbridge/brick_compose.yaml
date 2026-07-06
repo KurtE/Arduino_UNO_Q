@@ -1,0 +1,25 @@
+# Source: https://forum.arduino.cc/t/getting-a-neato-xv-11-lidar-working-on-the-q/1445568/18
+services:
+  joystick:
+    # image is pulled from docker hub
+    image: kurte42/simple-joystick_brick-joystick:latest
+
+    privileged: true
+
+    group_add:
+      - "995"
+
+    # Map the UNO Q SPI hardware line into the container
+    devices:
+      - "/dev/input:/dev/input"
+      - "/dev/udev:/dev/udev"
+      - "/run/udev:/run/udev"
+
+    volumes:
+      - "/dev:/dev"
+      - "/run/udev:/run/udev:ro"
+
+    ports:
+      # Expose the port for communication with the container's Flask web application.
+      # See: https://docs.docker.com/reference/compose-file/services/#ports
+      - "5000:5000"
