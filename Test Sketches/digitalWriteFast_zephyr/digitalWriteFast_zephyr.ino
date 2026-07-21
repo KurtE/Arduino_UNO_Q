@@ -3,9 +3,17 @@
 #include "wiring_private.h"
 using namespace zephyr::arduino;
 
+#ifdef ARDUINO_UNO_Q
 #define PIN 2
 #define PIN_MARKER 3
 #define PIN_NAME PB_3
+#else
+//Giga
+#define PIN 2
+#define PIN_MARKER 3
+#define PIN_NAME PA_3
+
+#endif
 
 void setup() {
   Serial.begin(115200);
@@ -104,10 +112,15 @@ void loop() {
     while (Serial.available()) Serial.read();
   }
   do_digitalWrite();
+  Serial.flush();
   do_digitalWriteFast();
+  Serial.flush();
   do_digitalWriteFastName();
+  Serial.flush();
   do_digitalToggleFast();
+  Serial.flush();
   do_digitalToggleFastName();
+  Serial.flush();
   Serial.println();
   delay(1000);
 }
