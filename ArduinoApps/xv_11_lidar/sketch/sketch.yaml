@@ -1,0 +1,9 @@
+profiles:
+  default:
+    fqbn: 
+    platforms:
+      - platform: arduino:zephyr
+    libraries:
+      - PID (1.2.0)
+
+default_profile: default

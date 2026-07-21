@@ -35,7 +35,7 @@ ILI9488_t3 tft = ILI9488_t3(&SPI, TFT_CS, TFT_DC, TFT_RST);
 int oldcolor, currentcolor;
 
 void setup(void) {
-  while (!Serial);     // used for leonardo debugging
+  while (!Serial && millis() < 5000);     // used for leonardo debugging
  
   Serial.begin(115200);
   Serial.println(F("Cap Touch Paint!"));
