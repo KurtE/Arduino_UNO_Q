@@ -28,6 +28,33 @@
 #include "digitalWriteFast_zephyr.h"
 
 
+uint8_t mapPinNameToPin(PinName pin_name) {
+  uint8_t pin_on_port = pin_name & 0xf;
+  GPIO_TypeDef  * const port = port_table[pin_name >> 4];
+  for (uint8_t pin_num = 0; pin_num < NUM_OF_DIGITAL_PINS; pin_num++) {
+      const struct gpio_stm32_config *cfg = (gpio_stm32_config*)arduino_pins[pin_num].port->config;  
+      GPIO_TypeDef *portX = (GPIO_TypeDef *)cfg->base;
+
+      if ((portX == port) && (arduino_pins[pin_num].pin == pin_on_port)) {
+          return pin_num;
+      }
+    }
+    return 0xff;  // pin name not in Arduino Pin list
+}
+
+PinName mapPinToPinName(uint8_t pin) {
+  const struct gpio_stm32_config *cfg = (gpio_stm32_config*)arduino_pins[pin].port->config;  
+  GPIO_TypeDef *port = (GPIO_TypeDef *)cfg->base;
+
+  // now find this port in our Port list;
+  for (uint8_t i = 0; i < (sizeof(port_table)/sizeof(port_table[0])); i++) {
+    if (port == port_table[i]) {
+      return (PinName)((i << 4) | arduino_pins[pin].pin);
+    }
+  }
+  return (PinName)0xff;
+}
+
 void pinMode(PinName pin_name, PinMode mode) {
   // I am going to try to rely on Zephyr to do this, as to not have to replicate a lot of the zephyr code.
   // first main hack, See if I can find the GPIO port object that has points to the right GPIO object.

@@ -62,6 +62,9 @@ static  GPIO_TypeDef * const port_table[] = { GPIOA, GPIOB, GPIOC, GPIOD, GPIOE,
 
 extern void pinMode(PinName pin_name, PinMode mode);
 
+extern uint8_t mapPinNameToPin(PinName pin_name);
+extern PinName mapPinToPinName(uint8_t pin);
+
 // quick and dirty digitalWriteFast
 
 // Sets the state of an IO pin
