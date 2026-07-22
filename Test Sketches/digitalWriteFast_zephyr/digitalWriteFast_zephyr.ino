@@ -1,8 +1,5 @@
-#include <digitalWriteFast_zephyr.h>
-//#include "pinDefinitions.h"
-#include "wiring_private.h"
-using namespace zephyr::arduino;
 
+#include <digitalWriteFast_zephyr.h>
 #ifdef ARDUINO_UNO_Q
 #define PIN 2
 #define PIN_MARKER 3
@@ -21,17 +18,8 @@ void setup() {
   while (!Serial && millis() < 5000)
     ;
 
-#if 0
-  for (int i = 0; i < NUM_OF_DIGITAL_PINS; i++) {
-    Serial.print(i);
-    Serial.print(":"); Serial.print((uint32_t)arduino_pins[i].port, HEX);
-    const struct gpio_stm32_config *cfg = (gpio_stm32_config*)arduino_pins[i].port->config;
-	  GPIO_TypeDef *gpio = (GPIO_TypeDef *)cfg->base;
-    Serial.print(" "); Serial.print((uint32_t)gpio, HEX);
-    Serial.print(" "); Serial.println(arduino_pins[i].pin);
-  } 
-#endif
-  pinMode(PIN, OUTPUT);
+  //pinMode(PIN, OUTPUT);
+  pinMode(PIN_NAME, OUTPUT);
   pinMode(PIN_MARKER, OUTPUT);
 }
 
@@ -124,4 +112,3 @@ void loop() {
   Serial.println();
   delay(1000);
 }
-
