@@ -57,6 +57,25 @@ uint8_t pinLast[count_pin_names] = {
   // clang-format on
 };
 
+#if defined(ARDUINO_UNO_Q)
+static constuint16_t pinname_exclude_list[11] = {
+  // LEDS PH_10=15, LED_MATRIX=PF0-10, SPI RDR=PG_13, Analog switch=PA_2, BOOT0 PH_3
+  0b0000000000000100, 0b0000000000000000, 0b0000000000000000, 0b0000000000000000,  // GPIOA-D
+  0b0000000000000000, 0b0000011111111111, 0b0010000000000000, 0b1111110000001000,  // GPIOE-PH
+  0b0000000000000000, 0b0000000000000000, 0b0000000000000000,                      // GPIOI-K
+};
+
+#elif defined(ARDUINO_PORTENTA_H7_M7)
+static const uint16_t pinname_exclude_list[11] = {
+  // LEDS PH_10=15, LED_MATRIX=PF0-10, SPI RDR=PG_13, Analog switch=PA_2, BOOT0 PH_3
+  0b1000000010101110, 0b0011110000100011, 0b0101111100110011, 0b1111111100000111, // GPIOA-D
+  0b1111111111110011, 0b1111111111111111, 0b1011100101110111, 0b0000000000111111, // GPIOE-PH
+  0b0001100000000000, 0b1111000000111111, 0b11111101                              // GPIOI-K
+};
+#elif defined(ARDUINO_GIGA)
+static const uint16_t pinname_exclude_list[11] = {0};
+#endif
+
 #ifndef NUM_DIGITAL_PINS
 #define NUM_DIGITAL_PINS (22u)
 //#if DT_PROP_LEN(DT_PATH(zephyr_user), digital_pin_gpios) > 0
@@ -77,8 +96,8 @@ void setup() {
     ;
 
   // default to only Arduino Pins.
-  enable_only_arduino_pins();
-
+  //enable_only_arduino_pins();
+  exclude_pins();
   // find the last pin name used
   for (index_pinLast_used = sizeof(pinLast) - 1; index_pinLast_used >= 0; index_pinLast_used--) {
     if (pinLast[index_pinLast_used] == 0) break;
@@ -88,8 +107,6 @@ void setup() {
 
   Serial.print("NUM_DIGITAL_PINS: ");
   Serial.println(NUM_DIGITAL_PINS, DEC);
-  Serial.print("PINS_COUNT: ");
-  Serial.println(PINS_COUNT);
   Serial.println("Pins included in test:");
   int index_first_in_series = -1;
   for (int i = 0; i <= index_pinLast_used; i++) {
@@ -99,10 +116,10 @@ void setup() {
       // end of series
       if (index_first_in_series != -1) {
         Serial.print(" ");
-        Serial.print(index_first_in_series);
+        Serial.print(pin_names[index_first_in_series]);
         if (index_first_in_series != (i - 1)) {
           Serial.print("-");
-          Serial.print(i - 1);
+          Serial.print(pin_names[i - 1]);
         }
         index_first_in_series = -1;
       }
@@ -127,6 +144,18 @@ void enable_only_arduino_pins() {
 
 }
 
+void exclude_pins() {
+  int pin_name_index = 0;
+  for (uint8_t i = 0; i < 11; i++) {
+    uint16_t exclude_pins = pinname_exclude_list[i];
+    for (uint8_t j = 0; j < 16; j++) {
+      if(exclude_pins & 1) pinLast[pin_name_index] = 0xff;
+      pin_name_index++;
+      exclude_pins >>= 1;
+    }
+  }
+}
+
 void allPinTest() {
   int ii;
   for (ii=0; ii <= index_pinLast_used; ii++) pins_changed[ii] = false;
@@ -138,16 +167,16 @@ void allPinTest() {
     if (pinLast[ii] != 0xff) {
       if ((ii == 0) || (pinLast[ii - 1] == 0xff)) {
         Serial.print("\n(");
-        Serial.print(ii);
+        Serial.print(pin_names[ii]);
         Serial.print(") ");
         Serial.flush();
       }
       pinMode(pin_name, INPUT_PULLUP);
       delayMicroseconds(5);
-      pinLast[ii] = digitalRead(pin_name);
+      pinLast[ii] = digitalReadFast(pin_name);
       if (!pinLast[ii]) {
         Serial.print("\nd#=");
-        Serial.print(ii);
+        Serial.print(pin_names[ii]);
         Serial.print(" val=");
       }
       Serial.print(pinLast[ii]);
@@ -156,23 +185,25 @@ void allPinTest() {
   }
   Serial.println();
   Serial.println();
+  show_all_gpio_regs();
   while (1) {
     uint32_t jj, dd = 0, cc = 0;
     cc = 0;
     for (ii = 0; ii <= index_pinLast_used; ii++) {
       PinName pin_name = (PinName)ii;
       if (pinLast[ii] != 0xff) {
-        jj = digitalRead(pin_name);
+        jj = digitalReadFast(pin_name);
         if (jj != pinLast[ii]) {
           pins_changed[ii] = true;
           dd = 1;
           cc++;
           pinLast[ii] = jj;
-          Serial.print("d#=");
-          Serial.print(ii);
-          if (ii < count_pin_names) {
+          Serial.print(pin_names[ii]);
+          // See if this name maps to Arduino pin number
+          uint8_t arduino_pin_number = mapPinNameToPin(pin_name);
+          if (arduino_pin_number != 0xff) {
             Serial.print("(");
-            Serial.print(pin_names[ii]);
+            Serial.print(arduino_pin_number);
             Serial.print(")");
           }
           if (pinLast[ii]) Serial.print("\t");
@@ -229,7 +260,7 @@ void allPinTest() {
           else
             pinMode(pin_name, INPUT_PULLUP);
           delayMicroseconds(20);
-          pinLast[ii] = digitalRead(pin_name);
+          pinLast[ii] = digitalReadFast(pin_name);
           if (pin_test_mode != pinLast[ii]) {
             Serial.print("d#=");
             Serial.print(ii);
@@ -243,7 +274,60 @@ void allPinTest() {
           }
         }
       }
+      show_all_gpio_regs();
     }
   }
+}
+void print_gpio_regs(const char *name, GPIO_TypeDef *port) {
+  //printk("GPIO%s(%p) %08X %08X %08x\n", name, port, port->MODER, port->AFR[0], port->AFR[1]);
+  Serial.print("GPIO");
+  Serial.print(name);
+  Serial.print(" ");
+  uint32_t moder = port->MODER;
+  Serial.print(moder, HEX);
+  Serial.print(" : ");
+  for (uint8_t i = 0; i < 16; i++) {
+    switch (moder & 0xC0000000) {
+      case 0x00000000ul: Serial.print("I"); break;
+      case 0x40000000ul: Serial.print("O"); break;
+      case 0x80000000ul: Serial.print("F"); break;
+      default: Serial.print("A"); break;
+    }
+    moder <<= 2;
+  }
+  Serial.print(" ");
+  Serial.print(port->AFR[0], HEX);
+  Serial.print(" ");
+  Serial.print(port->AFR[1], HEX);
+  Serial.print(" ");
+  Serial.print(port->IDR, HEX);
+  Serial.print(" ");
+  Serial.print(port->ODR, HEX);
+  Serial.print(" ");
+  uint32_t pupdr = port->PUPDR;
+  Serial.print(pupdr, HEX);
+  Serial.print(" : ");
+  for (uint8_t i = 0; i < 16; i++) {
+    switch (pupdr & 0xC0000000) {
+      case 0x00000000ul: Serial.print("-"); break;
+      case 0x40000000ul: Serial.print("U"); break;
+      case 0x80000000ul: Serial.print("D"); break;
+      default: Serial.print("?"); break;
+    }
+    pupdr <<= 2;
+  }
+  Serial.println();
+}
+
+void show_all_gpio_regs() {
+  print_gpio_regs("A", (GPIO_TypeDef *)GPIOA_BASE);
+  print_gpio_regs("B", (GPIO_TypeDef *)GPIOB_BASE);
+  print_gpio_regs("C", (GPIO_TypeDef *)GPIOC_BASE);
+  print_gpio_regs("D", (GPIO_TypeDef *)GPIOD_BASE);
+  print_gpio_regs("E", (GPIO_TypeDef *)GPIOE_BASE);
+  print_gpio_regs("F", (GPIO_TypeDef *)GPIOF_BASE);
+  print_gpio_regs("G", (GPIO_TypeDef *)GPIOG_BASE);
+  print_gpio_regs("H", (GPIO_TypeDef *)GPIOH_BASE);
+  print_gpio_regs("I", (GPIO_TypeDef *)GPIOI_BASE);
 }
 
