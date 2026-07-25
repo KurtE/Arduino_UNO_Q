@@ -45,7 +45,7 @@ void setup() {
     uint8_t pin_number = mapPinNameToPin(pn);
 
     Serial.print(pin_names[i]);
-    Serial.print(": ");
+    Serial.print(",");
     if (pin_number != 0xff) Serial.print(pin_number);
     Serial.println();
   }
