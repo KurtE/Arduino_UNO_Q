@@ -183,13 +183,6 @@ uint16_t digitalReadFast(uint8_t pin) {
 uint16_t digitalReadFast(PinName pin_name) {
   uint16_t pin_mask = 1 << (pin_name & 0xf);
   GPIO_TypeDef  * const portX = port_table[pin_name >> 4];
-  static uint8_t DEBUG_COUNT = 5;
-  if (DEBUG_COUNT) {
-    DEBUG_COUNT--;
-    Serial.print("DRF(0x"); Serial.print(pin_name, HEX);
-    Serial.print(" "); Serial.print((uint32_t)portX, HEX);
-    Serial.print(" "); Serial.println(pin_mask, HEX);
-  }
 
   return (portX->IDR & pin_mask) ? 1 : 0;
 }
