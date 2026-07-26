@@ -24,6 +24,7 @@ void setup() {
   }
 
   // Lets print a condensed GPIO Table
+  Serial.println("\n*** GPIO PORT/Pin To Arduino Pin numbers mapping ***");
   Serial.println("\nGPIOX: 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15");
   Serial.print("====== == == == == == == == == == == == == == == == ==");
 
@@ -44,7 +45,30 @@ void setup() {
   }
   Serial.println();
 
+  Serial.println("\n*** Arduino Pin To Pin Name mapping table ***");
+  Serial.println("\nPin   0     1     2     3     4     5     6     7     8     9");
+  Serial.print    ("=== ===== ===== ===== ===== ===== ===== ===== ===== ===== =====");
 
+  // for the fun of it print out pin to PinName map as well
+  for (uint8_t i = 0; i < NUM_OF_DIGITAL_PINS; i++) {
+    if ((i % 10) == 0) {
+      Serial.print("\n");
+      if (i < 10) Serial.print("  ");
+      else if (i < 100) Serial.print(" ");
+      Serial.print(i);
+    }
+
+    PinName pn = mapPinToPinName(i);
+    if (pn == PX_INVALID) {
+      Serial.print(" -----");
+    } else {
+      const char *sz = pinNameToStr(pn);
+      Serial.print(" ");
+      Serial.print(sz);
+      if (strlen(sz) < 5) Serial.print(" ");
+    }
+  }
+  Serial.println("\n");
 
   // Lets try LED_BUILTIN
   led_builtin_pn = mapPinToPinName(LED_BUILTIN);
