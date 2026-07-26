@@ -89,6 +89,13 @@ uint8_t mapPinNameToPin(PinName pin_name) {
     return 0xff;  // pin name not in Arduino Pin list
 }
 
+GPIO_TypeDef const *mapPinNameToPortAndPin(PinName pin_name, uint8_t *port_pin) {
+  if (pin_name >= PX_COUNT) return nullptr;
+
+  if (port_pin != nullptr) *port_pin = pin_name & 0xf;
+  return port_table[pin_name >> 4];
+}
+
 PinName mapPinToPinName(uint8_t pin) {
   const struct gpio_stm32_config_head *cfg = (gpio_stm32_config_head*)arduino_pins[pin].port->config;  
   GPIO_TypeDef *port = (GPIO_TypeDef *)cfg->base;
@@ -99,7 +106,7 @@ PinName mapPinToPinName(uint8_t pin) {
       return (PinName)((i << 4) | arduino_pins[pin].pin);
     }
   }
-  return (PinName)0xff;
+  return (PinName)PX_INVALID;
 }
 
 void pinMode(PinName pin_name, PinMode mode) {
@@ -222,3 +229,44 @@ const char *pinNameToStr(PinName pin_name) {
   return (pin_name < PX_COUNT)? pin_names[pin_name] : nullptr;
 }
 
+
+void pinNameSetModer(PinName pin_name, uint8_t pin_mode) {
+  GPIO_TypeDef  * const port = port_table[pin_name >> 4];
+  uint8_t pin = pin_name & 0xf;
+
+  uint32_t moder = port->MODER;
+  uint32_t mask = ~(0x3 << (pin * 2));
+  moder = (moder & mask) | (pin_mode << (pin * 2));
+  port->MODER = moder;
+}
+
+void pinSetModer(uint8_t pin, uint8_t pin_mode) {
+    PinName pn = mapPinToPinName(pin);
+    if (pn != PX_INVALID) {
+        pinNameSetModer(pn, pin_mode);
+    }
+}
+
+void PinNameSetAFR(PinName pin_name, uint8_t af) {
+  GPIO_TypeDef  * const port = port_table[pin_name >> 4];
+  uint8_t pin = pin_name & 0xf;
+
+  uint32_t moder = port->MODER;
+  uint32_t mask = ~(0x3 << (pin * 2));
+  moder = (moder & mask) | (0x2 << (pin * 2));
+  port->MODER = moder;
+
+  if (pin < 8) {
+    port->AFR[0] = ( port->AFR[0] & ~(0xf << (pin * 4)) ) | (af << (pin * 4));
+  } else {
+    pin -= 8;
+    port->AFR[1] = ( port->AFR[1] & ~(0xf << (pin * 4)) ) | (af << (pin * 4));
+  }
+}
+
+void pinSetAFR(uint8_t pin, uint8_t af) {
+  PinName pn = mapPinToPinName(pin);
+    if (pn != PX_INVALID) {
+        PinNameSetAFR(pn, af);
+    }
+}  

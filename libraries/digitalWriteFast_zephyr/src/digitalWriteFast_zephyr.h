@@ -49,7 +49,7 @@ typedef enum {
     PJ_0=0x90, PJ_1, PJ_2, PJ_3, PJ_4, PJ_5, PJ_6, PJ_7, PJ_8, PJ_9, PJ_10, PJ_11, PJ_12, PJ_13, PJ_14, PJ_15,
     PK_0=0xA0, PK_1, PK_2, PK_3, PK_4, PK_5, PK_6, PK_7,
 #endif
-    PX_COUNT
+    PX_COUNT, PX_INVALID=0xff
 } PinName;
 
 
@@ -58,7 +58,7 @@ extern void pinMode(PinName pin_name, PinMode mode);
 
 extern uint8_t mapPinNameToPin(PinName pin_name);
 extern PinName mapPinToPinName(uint8_t pin);
-
+extern GPIO_TypeDef const *mapPinNameToPortAndPin(PinName pin_name, uint8_t *port_pin);
 // quick and dirty digitalWriteFast
 
 // Sets the state of an IO pin
@@ -90,6 +90,12 @@ extern const char *pinNameToStr(PinName pin_name);
 inline const char *pinNameToStr(int pin_name) {
     return pinNameToStr((PinName)pin_name);
 }
+
+extern void pinNameSetModer(PinName pin_name, uint8_t pin_mode);
+extern void PinNameSetAFR(PinName pin_name, uint8_t af);
+
+extern void pinSetModer(uint8_t pin, uint8_t pin_mode);
+extern void pinSetAFR(uint8_t pin, uint8_t af);
 
 
 // Debug printing functions
