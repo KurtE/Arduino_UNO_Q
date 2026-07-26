@@ -22,34 +22,7 @@
 #include <digitalWriteFast_zephyr.h>
 //#define PRINT_DEBUG_PIN_ENUM
 
-const char *pin_names[] = {
-  // clang-format off
-    "PA_0", "PA_1", "PA_2", "PA_3","PA_4", "PA_5", "PA_6", "PA_7", 
-    "PA_8", "PA_9", "PA_10", "PA_11", "PA_12", "PA_13", "PA_14", "PA_15", 
-    "PB_0", "PB_1", "PB_2", "PB_3", "PB_4", "PB_5", "PB_6", "PB_7", 
-    "PB_8", "PB_9", "PB_10", "PB_11", "PB_12", "PB_13", "PB_14", "PB_15",
-    "PC_0", "PC_1", "PC_2", "PC_3", "PC_4","PC_5", "PC_6", "PC_7", 
-    "PC_8", "PC_9", "PC_10", "PC_11", "PC_12", "PC_13", "PC_14", "PC_15",
-    "PD_0", "PD_1", "PD_2", "PD_3", "PD_4", "PD_5", "PD_6", "PD_7", 
-    "PD_8", "PD_9", "PD_10", "PD_11", "PD_12", "PD_13", "PD_14", "PD_15", 
-    "PE_0", "PE_1", "PE_2", "PE_3", "PE_4", "PE_5", "PE_6", "PE_7", 
-    "PE_8", "PE_9", "PE_10", "PE_11", "PE_12", "PE_13", "PE_14", "PE_15", 
-    "PF_0", "PF_1", "PF_2", "PF_3", "PF_4", "PF_5", "PF_6", "PF_7", 
-    "PF_8", "PF_9", "PF_10", "PF_11","PF_12", "PF_13", "PF_14", "PF_15", 
-    "PG_0", "PG_1", "PG_2", "PG_3", "PG_4", "PG_5", "PG_6","PG_7", 
-    "PG_8", "PG_9", "PG_10", "PG_11", "PG_12", "PG_13", "PG_14", "PG_15", 
-    "PH_0", "PH_1", "PH_2", "PH_3", "PH_4", "PH_5", "PH_6", "PH_7", 
-    "PH_8", "PH_9", "PH_10", "PH_11","PH_12", "PH_13", "PH_14", "PH_15", 
-    "PI_0", "PI_1", "PI_2", "PI_3", "PI_4", "PI_5", "PI_6","PI_7", 
-    "PI_8", "PI_9", "PI_10", "PI_11", "PI_12", "PI_13", "PI_14", "PI_15", 
-    "PJ_0", "PJ_1", "PJ_2", "PJ_3", "PJ_4", "PJ_5", "PJ_6", "PJ_7", 
-    "PJ_8", "PJ_9", "PJ_10", "PJ_11", "PJ_12","PJ_13", "PJ_14", "PJ_15", 
-    "PK_0", "PK_1", "PK_2", "PK_3", "PK_4", "PK_5", "PK_6", "PK_7",
-
-  // clang-format on
-};
-
-const uint8_t count_pin_names = sizeof(pin_names) / sizeof(pin_names[1]);
+const uint8_t count_pin_names = PinName::PX_COUNT;
 uint8_t pin_test_mode = 1;
 
 // This one is setup currently for Portenta H7
@@ -164,10 +137,10 @@ void setup() {
       // end of series
       if (index_first_in_series != -1) {
         Serial.print(" ");
-        Serial.print(pin_names[index_first_in_series]);
+        Serial.print(pinNameToStr(index_first_in_series));
         if (index_first_in_series != (i - 1)) {
           Serial.print("-");
-          Serial.print(pin_names[i - 1]);
+          Serial.print(pinNameToStr(i - 1));
         }
         index_first_in_series = -1;
       }
@@ -215,7 +188,7 @@ void allPinTest() {
     if (pinLast[ii] != 0xff) {
       if ((ii == 0) || (pinLast[ii - 1] == 0xff)) {
         Serial.print("\n(");
-        Serial.print(pin_names[ii]);
+        Serial.print(pinNameToStr(ii));
         Serial.print(") ");
         Serial.flush();
       }
@@ -230,7 +203,7 @@ void allPinTest() {
       #endif      
       if (!pinLast[ii]) {
         Serial.print("\nd#=");
-        Serial.print(pin_names[ii]);
+        Serial.print(pinNameToStr(ii));
         Serial.print(" val=");
       }
       Serial.print(pinLast[ii]);
@@ -239,7 +212,7 @@ void allPinTest() {
   }
   Serial.println();
   Serial.println();
-  show_all_gpio_regs();
+  print_all_gpio_regs();
   while (1) {
     uint32_t jj, dd = 0, cc = 0;
     cc = 0;
@@ -252,7 +225,7 @@ void allPinTest() {
           dd = 1;
           cc++;
           pinLast[ii] = jj;
-          Serial.print(pin_names[ii]);
+          Serial.print(pinNameToStr(ii));
           // See if this name maps to Arduino pin number
           uint8_t arduino_pin_number = mapPinNameToPin(pin_name);
           if (arduino_pin_number != 0xff) {
@@ -320,7 +293,7 @@ void allPinTest() {
             Serial.print(ii);
             if (ii < count_pin_names) {
               Serial.print("(");
-              Serial.print(pin_names[ii]);
+              Serial.print(pinNameToStr(ii));
               Serial.print(")");
             }
             Serial.print(" val=");
@@ -328,64 +301,7 @@ void allPinTest() {
           }
         }
       }
-      show_all_gpio_regs();
+      print_all_gpio_regs();
     }
   }
 }
-void print_gpio_regs(const char *name, GPIO_TypeDef *port) {
-  //printk("GPIO%s(%p) %08X %08X %08x\n", name, port, port->MODER, port->AFR[0], port->AFR[1]);
-  Serial.print("GPIO");
-  Serial.print(name);
-  Serial.print(" ");
-  uint32_t moder = port->MODER;
-  Serial.print(moder, HEX);
-  Serial.print(" : ");
-  for (uint8_t i = 0; i < 16; i++) {
-    switch (moder & 0xC0000000) {
-      case 0x00000000ul: Serial.print("I"); break;
-      case 0x40000000ul: Serial.print("O"); break;
-      case 0x80000000ul: Serial.print("F"); break;
-      default: Serial.print("A"); break;
-    }
-    moder <<= 2;
-  }
-  Serial.print(" ");
-  Serial.print(port->AFR[0], HEX);
-  Serial.print(" ");
-  Serial.print(port->AFR[1], HEX);
-  Serial.print(" ");
-  Serial.print(port->IDR, HEX);
-  Serial.print(" ");
-  Serial.print(port->ODR, HEX);
-  Serial.print(" ");
-  uint32_t pupdr = port->PUPDR;
-  Serial.print(pupdr, HEX);
-  Serial.print(" : ");
-  for (uint8_t i = 0; i < 16; i++) {
-    switch (pupdr & 0xC0000000) {
-      case 0x00000000ul: Serial.print("-"); break;
-      case 0x40000000ul: Serial.print("U"); break;
-      case 0x80000000ul: Serial.print("D"); break;
-      default: Serial.print("?"); break;
-    }
-    pupdr <<= 2;
-  }
-  Serial.println();
-}
-
-void show_all_gpio_regs() {
-  print_gpio_regs("A", (GPIO_TypeDef *)GPIOA_BASE);
-  print_gpio_regs("B", (GPIO_TypeDef *)GPIOB_BASE);
-  print_gpio_regs("C", (GPIO_TypeDef *)GPIOC_BASE);
-  print_gpio_regs("D", (GPIO_TypeDef *)GPIOD_BASE);
-  print_gpio_regs("E", (GPIO_TypeDef *)GPIOE_BASE);
-  print_gpio_regs("F", (GPIO_TypeDef *)GPIOF_BASE);
-  print_gpio_regs("G", (GPIO_TypeDef *)GPIOG_BASE);
-  print_gpio_regs("H", (GPIO_TypeDef *)GPIOH_BASE);
-  print_gpio_regs("I", (GPIO_TypeDef *)GPIOI_BASE);
-  #if ! defined(ARDUINO_UNO_Q)
-  print_gpio_regs("J", (GPIO_TypeDef *)GPIOJ_BASE);
-  print_gpio_regs("K", (GPIO_TypeDef *)GPIOK_BASE);
-  #endif
-}
-

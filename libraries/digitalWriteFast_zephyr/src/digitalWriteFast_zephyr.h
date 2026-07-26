@@ -43,9 +43,13 @@ typedef enum {
     PF_0=0x50, PF_1, PF_2, PF_3, PF_4, PF_5, PF_6, PF_7, PF_8, PF_9, PF_10, PF_11, PF_12, PF_13, PF_14, PF_15,
     PG_0=0x60, PG_1, PG_2, PG_3, PG_4, PG_5, PG_6, PG_7, PG_8, PG_9, PG_10, PG_11, PG_12, PG_13, PG_14, PG_15,
     PH_0=0x70, PH_1, PH_2, PH_3, PH_4, PH_5, PH_6, PH_7, PH_8, PH_9, PH_10, PH_11, PH_12, PH_13, PH_14, PH_15,
-    PI_0=0x80, PI_1, PI_2, PI_3, PI_4, PI_5, PI_6, PI_7, PI_8, PI_9, PI_10, PI_11, PI_12, PI_13, PI_14, PI_15,
+    PI_0=0x80, PI_1, PI_2, PI_3, PI_4, PI_5, PI_6, PI_7, 
+#if !defined(STM32U5)  // UNO_Q does not have the vollowing pins
+    PI_8, PI_9, PI_10, PI_11, PI_12, PI_13, PI_14, PI_15,
     PJ_0=0x90, PJ_1, PJ_2, PJ_3, PJ_4, PJ_5, PJ_6, PJ_7, PJ_8, PJ_9, PJ_10, PJ_11, PJ_12, PJ_13, PJ_14, PJ_15,
-    PK_0=0xA0, PK_1, PK_2, PK_3, PK_4, PK_5, PK_6, PK_7
+    PK_0=0xA0, PK_1, PK_2, PK_3, PK_4, PK_5, PK_6, PK_7,
+#endif
+    PX_COUNT
 } PinName;
 
 
@@ -62,6 +66,14 @@ extern PinName mapPinToPinName(uint8_t pin);
 extern void digitalWriteFast(uint8_t pin, PinStatus val);
 extern void digitalWriteFast(PinName pin_name, PinStatus val);
 
+inline void digitalWriteFast(uint8_t pin, int status) {
+    digitalWriteFast(pin, (PinStatus)status);
+};
+
+inline void digitalWriteFast(PinName pin_name, int status) {
+    digitalWriteFast(pin_name, (PinStatus)status);
+};
+
 
 
 // Toggles the state of an IO pin - pin number version
@@ -70,7 +82,20 @@ extern void digitalToggleFast(uint8_t pin);
 extern void digitalToggleFast(PinName pin_name);
 
 // Reads the state of an IO pin - pin number version
-extern uint16_t digitalReadFast(uint8_t pin);
-extern uint16_t digitalReadFast(PinName pin_name);
+extern PinStatus digitalReadFast(uint8_t pin);
+extern PinStatus digitalReadFast(PinName pin_name);
+
+// Map PinName to String
+extern const char *pinNameToStr(PinName pin_name);
+inline const char *pinNameToStr(int pin_name) {
+    return pinNameToStr((PinName)pin_name);
+}
+
+
+// Debug printing functions
+extern void print_gpio_regs(const char *name, GPIO_TypeDef *port);
+extern void print_all_gpio_regs();
+
+
 
 #endif
